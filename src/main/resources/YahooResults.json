@@ -1,0 +1,147 @@
+{
+  "chart": {
+    "result": [
+      {
+        "meta": {
+          "currency": "USD",
+          "symbol": "GOOG",
+          "exchangeName": "NMS",
+          "instrumentType": "EQUITY",
+          "firstTradeDate": 1092902400,
+          "gmtoffset": -14400,
+          "timezone": "EDT",
+          "exchangeTimezoneName": "America/New_York",
+          "chartPreviousClose": 1090.88,
+          "previousClose": 1005.1,
+          "scale": 3,
+          "currentTradingPeriod": {
+            "pre": {
+              "timezone": "EDT",
+              "end": 1522243800,
+              "start": 1522224000,
+              "gmtoffset": -14400
+            },
+            "regular": {
+              "timezone": "EDT",
+              "end": 1522267200,
+              "start": 1522243800,
+              "gmtoffset": -14400
+            },
+            "post": {
+              "timezone": "EDT",
+              "end": 1522281600,
+              "start": 1522267200,
+              "gmtoffset": -14400
+            }
+          },
+          "tradingPeriods": [
+            [
+              {
+                "timezone": "EDT",
+                "end": 1521748800,
+                "start": 1521725400,
+                "gmtoffset": -14400
+              }
+            ],
+            [
+              {
+                "timezone": "EDT",
+                "end": 1521835200,
+                "start": 1521811800,
+                "gmtoffset": -14400
+              }
+            ],
+            [
+              {
+                "timezone": "EDT",
+                "end": 1522094400,
+                "start": 1522071000,
+                "gmtoffset": -14400
+              }
+            ],
+            [
+              {
+                "timezone": "EDT",
+                "end": 1522180800,
+                "start": 1522157400,
+                "gmtoffset": -14400
+              }
+            ],
+            [
+              {
+                "timezone": "EDT",
+                "end": 1522267200,
+                "start": 1522243800,
+                "gmtoffset": -14400
+              }
+            ]
+          ],
+          "dataGranularity": "2m",
+          "validRanges": [
+            "1d",
+            "5d",
+            "1mo",
+            "3mo",
+            "6mo",
+            "1y",
+            "2y",
+            "5y",
+            "10y",
+            "ytd",
+            "max"
+          ]
+        },
+        "timestamp": [
+          1521725400,
+          1521725520,
+          1521725640
+        ],
+        "indicators": {
+          "quote": [
+            {
+              "low": [
+                1071,
+                1070.6800537109375,
+                1072.3399658203125,
+                1075.31005859375,
+                1074.8299560546875,
+                null
+              ],
+              "close": [
+                1071.5,
+                1075.030029296875,
+                1076.1700439453125,
+                1075.5999755859375,
+                1010.9299926757812,
+                null
+              ],
+              "open": [
+                1080,
+                1071.81005859375,
+                1074.364990234375,
+                1075.8800048828125,
+                1075.3399658203125,
+                1076.030029296875,
+                null
+              ],
+              "volume": [
+                105425,
+                35122,
+                33419,
+                null
+              ],
+              "high": [
+                1080,
+                1075.0999755859375,
+                1077.030029296875,
+                1076.3800048828125,
+                null
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "error": null
+  }
+}

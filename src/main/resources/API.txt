@@ -1,0 +1,13 @@
+https://query1.finance.yahoo.com/v7/finance/options/AAPL
+http://www.google.com/finance/option_chain?q=AAPL&output=json
+
+https://xlautomation.com.au/free-spreadsheets/yahoo-historical-price-extract
+
+
+https://finance.yahoo.com/quote/GOOG/?p=GOOG
+
+
+http://www.jsonschema2pojo.org/ com.stockExchangeAggregator.model Yahoo
+
+https://query1.finance.yahoo.com/v8/finance/chart/GOOG?region=US&lang=en-US&range=5d&includePrePost=false&interval=2m&corsDomain=finance.yahoo.com&.tsrc=finance
+
