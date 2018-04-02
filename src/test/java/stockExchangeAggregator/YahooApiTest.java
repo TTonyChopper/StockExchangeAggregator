@@ -30,92 +30,20 @@ import javax.net.ssl.X509ExtendedTrustManager;
 
 import org.junit.Test;
 
+import com.enums.HttpMethod;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.stockExchangeAggregator.model.Yahoo;
+import com.stockExchangeAggregator.model.yahoo.Yahoo;
+import com.stockExchangeAggregator.providers.CurlProvider;
 
 public class YahooApiTest{
 
 	@Test
 	public void test1(){
-		 //
-		 TrustManager[] trustAllCerts = new TrustManager[]{
-	                new X509ExtendedTrustManager() {
-	                    @Override
-	                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-	                        return null;
-	                    }
-
-	                    @Override
-	                    public void checkClientTrusted(X509Certificate[] certs, String authType) {
-	                    }
-
-	                    @Override
-	                    public void checkServerTrusted(X509Certificate[] certs, String authType) {
-	                    }
-
-	                    @Override
-	                    public void checkClientTrusted(X509Certificate[] xcs, String string, Socket socket) throws CertificateException {
-
-	                    }
-
-	                    @Override
-	                    public void checkServerTrusted(X509Certificate[] xcs, String string, Socket socket) throws CertificateException {
-
-	                    }
-
-	                    @Override
-	                    public void checkClientTrusted(X509Certificate[] xcs, String string, SSLEngine ssle) throws CertificateException {
-
-	                    }
-
-	                    @Override
-	                    public void checkServerTrusted(X509Certificate[] xcs, String string, SSLEngine ssle) throws CertificateException {
-
-	                    }
-
-	                }
-	            };
-
-	            SSLContext sc=null;
-				try {
-					sc = SSLContext.getInstance("SSL");
-					  sc.init(null, trustAllCerts, new java.security.SecureRandom());
-				} catch (NoSuchAlgorithmException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (KeyManagementException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	          
-	            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-
-	            // Create all-trusting host name verifier
-	            HostnameVerifier allHostsValid = new HostnameVerifier() {
-	                @Override
-	                public boolean verify(String hostname, SSLSession session) {
-	                    return true;
-	                }
-	            };
-	            // Install the all-trusting host verifier
-	            HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
-	            
-	            URL url;
-	            String res=null;
-				try {
-					url = new URL("https://query1.finance.yahoo.com/v8/finance/chart/GOOG?region=US&lang=en-US&range=1d&includePrePost=false&interval=2m&corsDomain=finance.yahoo.com&.tsrc=finance");
-					 URLConnection con = url.openConnection();
-					 InputStream is = new URL(url.toString()).openStream();
-					 res=new BufferedReader(new InputStreamReader(is))
-							  .lines().collect(Collectors.joining("\n"));
-				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		
+		String res=null;
+		String strUrl="https://query1.finance.yahoo.com/v8/finance/chart/GOOG?region=US&lang=en-US&range=1d&includePrePost=false&interval=2m&corsDomain=finance.yahoo.com&.tsrc=finance";
+		res=CurlProvider.getInstance().getURI(strUrl, HttpMethod.GET, null);
 	           
 		if(res!=null) {
 			ObjectMapper mapper = new ObjectMapper();
@@ -128,8 +56,7 @@ public class YahooApiTest{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
-			//System.out.println(yahoo.getChart().toString());
-			
+			//System.out.println(yahoo.getChart().toString());			
 			
 		}else {
 			System.out.println(res);
