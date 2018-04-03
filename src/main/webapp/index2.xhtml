@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	>
+ <h:head>
+ </h:head>
+ <h:body>
+ Hello World!
+<p:inputText value="lallala" />
+<h:panelGrid columns="1" style="margin-bottom: 10px">
+        <p:inputText id="txt1" value="#{sliderView.number1}" />
+        <p:slider for="txt1" />
+    </h:panelGrid>
+ 
+    <h3>InputText Slider with Decimal Value </h3>
+    <h:panelGrid columns="1" style="margin-bottom: 10px">
+        <p:inputText id="decimal" value="#{sliderView.number2}" />
+        <p:slider for="decimal" minValue="0.2" maxValue="7.1" step="0.1" />
+    </h:panelGrid>
+    
+    <p:chart type="line" model="#{chartView.lineModel1}" style="height:300px;"/>
+ </h:body>
+</html>
