@@ -26,8 +26,14 @@
         
     </p:layoutUnit>
  
-    <p:layoutUnit position="east" size="40%" header="Right" resizable="true" closable="true" collapsible="true" effect="drop" >
-        
+    <p:layoutUnit position="east" size="40%" header="Right" style="height:100%;" resizable="true" closable="true" collapsible="true" effect="drop" >
+        <h:panelGroup layout="block" id="rawString">
+        <h:form>
+        <pe:codeMirror id="codeMirror" theme="cobalt" style="height:auto;" 
+     lineNumbers="true"  value="#{apiBean.apiWrapper.rawString}"
+    matchBrackets="true" /> 
+    </h:form> 
+     </h:panelGroup>
     </p:layoutUnit>
  
     <p:layoutUnit position="center" header="Center" >
@@ -35,7 +41,7 @@
   <h:panelGroup layout="block" id="graph">
   <p:chart type="line" model="#{apiBean.lineChart}" style="height:300px;" />
 <h:form>
-<p:poll interval="3" listener="#{apiBean.refresh}" update="graph" />
+<p:poll interval="3" listener="#{apiBean.refresh}" update="graph rawString" />
 </h:form>
   </h:panelGroup>
         

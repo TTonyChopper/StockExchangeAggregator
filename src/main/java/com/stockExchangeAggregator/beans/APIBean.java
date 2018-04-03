@@ -36,7 +36,7 @@ public class APIBean {
 	
 	public APIBean() {
 		super();
-		String strUrl="https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?region=US&lang=en-US&range=6mo&includePrePost=false&interval=1d&corsDomain=finance.yahoo.com&.tsrc=finance";
+		String strUrl="https://query1.finance.yahoo.com/v8/finance/chart/BTC-EUR?region=US&lang=en-US&range=6mo&includePrePost=false&interval=1d&corsDomain=finance.yahoo.com&.tsrc=finance";
 		apiWrapper=new APIWrapper(Yahoo.class,strUrl);
 		refresh();
 	}
@@ -46,14 +46,14 @@ public class APIBean {
 		res=CurlProvider.getInstance().getURI(apiWrapper.getUrl(), HttpMethod.GET, null);
 		
 		apiWrapper.setRawString(res);
-		if(res!=null) {
+		if(res!=null) {	
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.enable(SerializationFeature.INDENT_OUTPUT);
-			
 			Object obj=apiWrapper.getPojoClass();
 			try {
 				obj=mapper.readValue(res, Yahoo.class);
-				System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj));
+				//System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj));
+				apiWrapper.setRawString(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj));
 				apiWrapper.setPojo(obj);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
