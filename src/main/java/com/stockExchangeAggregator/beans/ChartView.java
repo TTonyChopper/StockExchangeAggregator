@@ -11,6 +11,7 @@ import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartSeries;
  
+@SuppressWarnings("serial")
 @ManagedBean
 public class ChartView implements Serializable {
  
