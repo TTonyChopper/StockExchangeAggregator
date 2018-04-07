@@ -102,11 +102,9 @@ public class APIBean {
 				//TODO Rework Null case
 				if(listOpen.size()==0)return lcm;
 				
-				LineChartSeries lineOpen = new LineChartSeries();
-				lineOpen.setFill(true);
-				lineOpen.setLabel("Open");
-				lineOpen.set("2004", 120);
-		        
+				LineChartSeries myLine = new LineChartSeries();
+				myLine.setFill(true);
+				myLine.setLabel("Close");		        
 				
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 				List<Object> rows=new ArrayList<Object>();
@@ -115,8 +113,8 @@ public class APIBean {
 			            .forEachOrdered(i->{
 			            	
 			            	String vTs=sdf.format(new Date(listTs.get(i)*1000));
-			            	Long vOpen=listOpen.get(i);            	
-			            	lineOpen.set(vTs, vOpen);
+			            	Double val=listClose.get(i);            	
+			            	myLine.set(vTs, val);
 			            	
 			            	YahooRow yRow=new YahooRow();
 			            	yRow.setTimestamp(listTs.get(i)*1000);
@@ -129,7 +127,7 @@ public class APIBean {
 			            });				
 				apiWrapper.setRows(rows);
 				
-				lcm.addSeries(lineOpen);
+				lcm.addSeries(myLine);
 				lcm.setZoom(true);
 				DateAxis axisX = new DateAxis("Dates");
 				axisX.setTickAngle(-50);
