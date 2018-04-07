@@ -7,6 +7,16 @@
   <version>1.0.0-SNAPSHOT</version>
   <name>stockExchangeAggregator</name>
   <url>http://maven.apache.org</url>
+  
+  <repositories>
+    <repository>
+        <id>prime-repo</id>
+        <name>PrimeFaces Maven Repository</name>
+        <url>http://repository.primefaces.org</url>
+        <layout>default</layout>
+    </repository>
+  </repositories>
+  
   <dependencies>
 	<dependency>
 		<groupId>javax</groupId>
@@ -76,6 +86,11 @@
 		<artifactId>primefaces</artifactId>
 		<version>6.2</version>
 	</dependency>
+	<dependency>  
+	  <groupId>org.primefaces.themes</groupId>  
+	  <artifactId>all-themes</artifactId>  
+	  <version>1.0.10</version>  
+	</dependency> 
 	<dependency>
         <groupId>org.primefaces.extensions</groupId>
         <artifactId>primefaces-extensions</artifactId>
