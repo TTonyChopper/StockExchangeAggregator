@@ -2,6 +2,7 @@ package com.stockExchangeAggregator.beans;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +23,7 @@ import com.enums.HttpMethod;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.stockExchangeAggregator.model.acme.APIWrapper;
+import com.stockExchangeAggregator.model.wrapper.YahooRow;
 import com.stockExchangeAggregator.model.yahoo.Indicators;
 import com.stockExchangeAggregator.model.yahoo.Quote;
 import com.stockExchangeAggregator.model.yahoo.Result;
@@ -38,16 +40,16 @@ public class APIBean {
 	public APIBean() {
 		super();
 		strUrl="https://query1.finance.yahoo.com/v8/finance/chart/BTC-EUR?region=US&lang=en-US&range=6mo&includePrePost=false&interval=1d&corsDomain=finance.yahoo.com&.tsrc=finance";
-		apiWrapper=new APIWrapper(Yahoo.class,strUrl);
+		apiWrapper=new APIWrapper(Yahoo.class,YahooRow.class,strUrl);
 		refresh();
 	}
 
 	public void refresh() {
 		String res=null;
-		res=CurlProvider.getInstance().getURI(strUrl, HttpMethod.GET, null);
+		res=CurlProvider.getInstance().getURI(strUrl, HttpMethod.GET, null);		
 		
-		apiWrapper.setRawString(res);
-		if(res!=null) {	
+		if(res!=null&&!res.equals("")) {	
+			apiWrapper.setRawString(res);
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.enable(SerializationFeature.INDENT_OUTPUT);
 			Object obj=apiWrapper.getPojoClass();
@@ -85,14 +87,20 @@ public class APIBean {
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-			
+			}		
 			
 			if(obj instanceof Yahoo) {
 				Result r=((Yahoo) obj).getChart().getResult().get(0);
 				List<Long> listTs=r.getTimestamp();
 				Quote q=r.getIndicators().getQuote().get(0);
 				List<Long> listOpen=q.getOpen();
+				List<Double> listClose=q.getClose();
+				List<Long> listLow=q.getLow();
+				List<Long> listHigh=q.getHigh();
+				List<Long> listVolume=q.getVolume();
+				
+				//TODO Rework Null case
+				if(listOpen.size()==0)return lcm;
 				
 				LineChartSeries lineOpen = new LineChartSeries();
 				lineOpen.setFill(true);
@@ -101,17 +109,25 @@ public class APIBean {
 		        
 				
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+				List<Object> rows=new ArrayList<Object>();
 				IntStream.range(0, listTs.size())
 			            .boxed()
 			            .forEachOrdered(i->{
 			            	
-			            	String a=sdf.format(new Date(listTs.get(i)*1000));
-			            	Long b=listOpen.get(i);
-			            	//System.out.println(a +"-"+b);
+			            	String vTs=sdf.format(new Date(listTs.get(i)*1000));
+			            	Long vOpen=listOpen.get(i);            	
+			            	lineOpen.set(vTs, vOpen);
 			            	
-			            	lineOpen.set(a, b);
-			            });
-			            //.collect(Collectors.toMap(i -> listTs.get(i), i -> listOpen.get(i)));
+			            	YahooRow yRow=new YahooRow();
+			            	yRow.setTimestamp(listTs.get(i)*1000);
+			            	yRow.setLow(listLow.get(i));
+			            	yRow.setHigh(listHigh.get(i));
+			            	yRow.setOpen(listOpen.get(i));
+			            	yRow.setClose(listClose.get(i));
+			            	yRow.setVolume(listVolume.get(i));
+			            	rows.add(yRow);
+			            });				
+				apiWrapper.setRows(rows);
 				
 				lcm.addSeries(lineOpen);
 				lcm.setZoom(true);
@@ -126,13 +142,16 @@ public class APIBean {
 		        
 		        lcm.getAxes().put(AxisType.X, axisX);
 		        
-		        
-		        Axis axisY= new LinearAxis("");
-		        axisY.setMin(Collections.min(listOpen));
-		        axisY.setMax(Collections.max(listOpen));
-		        
-		        lcm.getAxes().put(AxisType.Y, axisY);
-				//lineOpen.set
+		        try {
+			        Axis axisY= new LinearAxis("");
+			        axisY.setMin(Collections.min(listOpen));
+			        axisY.setMax(Collections.max(listOpen));
+			        
+			        lcm.getAxes().put(AxisType.Y, axisY);
+		        } catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 			}
 			
@@ -147,10 +166,6 @@ public class APIBean {
 
 	public void setStrUrl(String strUrl) {
 		this.strUrl = strUrl;
-	}
-	
-	
-	
-	
+	}	
 	
 }
