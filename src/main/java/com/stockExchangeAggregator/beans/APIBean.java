@@ -33,17 +33,18 @@ public class APIBean {
 	
 	private APIWrapper apiWrapper;	
 	private LineChartModel lineChart;
+	private String strUrl;
 	
 	public APIBean() {
 		super();
-		String strUrl="https://query1.finance.yahoo.com/v8/finance/chart/BTC-EUR?region=US&lang=en-US&range=6mo&includePrePost=false&interval=1d&corsDomain=finance.yahoo.com&.tsrc=finance";
+		strUrl="https://query1.finance.yahoo.com/v8/finance/chart/BTC-EUR?region=US&lang=en-US&range=6mo&includePrePost=false&interval=1d&corsDomain=finance.yahoo.com&.tsrc=finance";
 		apiWrapper=new APIWrapper(Yahoo.class,strUrl);
 		refresh();
 	}
 
 	public void refresh() {
 		String res=null;
-		res=CurlProvider.getInstance().getURI(apiWrapper.getUrl(), HttpMethod.GET, null);
+		res=CurlProvider.getInstance().getURI(strUrl, HttpMethod.GET, null);
 		
 		apiWrapper.setRawString(res);
 		if(res!=null) {	
@@ -137,10 +138,15 @@ public class APIBean {
 			
 		}
 		
-		
-		
-		
 		return lcm;
+	}
+
+	public String getStrUrl() {
+		return strUrl;
+	}
+
+	public void setStrUrl(String strUrl) {
+		this.strUrl = strUrl;
 	}
 	
 	
