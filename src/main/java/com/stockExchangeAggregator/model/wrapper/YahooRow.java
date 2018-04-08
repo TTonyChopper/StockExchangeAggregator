@@ -11,11 +11,12 @@ public class YahooRow implements POJORowInterface{
 
 	private Long timestamp;
 	private float low;
-	private double close;
-	private float open;
-	private float volume;
 	private float high;
-	private final static List<String> headers=Arrays.asList("Timestamp", "Low", "Close","Open","Volume","High");
+	private float open;
+	private double close;
+	private float volume;
+	
+	private final static List<String> headers=Arrays.asList("Timestamp", "Low", "High", "Open", "Close", "Volume");
 	
 	public YahooRow() {
 		super();
@@ -25,10 +26,10 @@ public class YahooRow implements POJORowInterface{
 		super();
 		this.timestamp = timestamp;
 		this.low = low;
-		this.close = close;
-		this.open = open;
-		this.volume = volume;
 		this.high = high;
+		this.open = open;
+		this.close = close;
+		this.volume = volume;
 	}
 	
 	
