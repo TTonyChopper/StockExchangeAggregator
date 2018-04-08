@@ -5,25 +5,24 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class APIWrapper {
+import org.primefaces.model.chart.LineChartModel;
 
-	private Class<?> pojoClass;
-	private Class<?> pojoRow;
+import com.stockExchangeAggregator.providers.ProviderFactory;
+
+public class APIWrapper<T extends POJOInterface, U extends POJORowInterface> {
+	private ProviderFactory providerFactory;
+	private Class<T> pojoClass;
+	private Class<U> pojoRow;
 	private String rawString;
-	private Object pojo;
+	private POJOInterface pojo;
 	private String url;
-	private List<Object> rows = new ArrayList<Object>();
+	private List<? extends POJORowInterface> rows = new ArrayList<>();
 	private List<String> headers = new ArrayList<String>();
 
-	public APIWrapper(Class<?> pojoClass, String url) {
+	public APIWrapper(Class<T> pojoClass, Class<U> pojoRow, String url) {
 		super();
-
-		this.pojoClass = pojoClass;
-		this.url = url;
-	}
-
-	public APIWrapper(Class<?> pojoClass, Class<?> pojoRow, String url) {
-		super();
+		
+		this.providerFactory = new ProviderFactory();
 		this.pojoClass = pojoClass;
 		this.pojoRow = pojoRow;
 		this.url = url;
@@ -43,10 +42,17 @@ public class APIWrapper {
 		}
 		if (headers == null)
 			headers = new ArrayList<String>();
-
 	}
 
-	public Class<?> getPojoClass() {
+	public void drawLineChart(POJOInterface obj, LineChartModel lcm) {
+		providerFactory.getChartProvider(pojoClass).drawLineChart(obj, lcm);
+	}
+
+	public void provideRows(POJOInterface obj, LineChartModel lcm) {
+		rows = providerFactory.getRowProvider(pojoClass).provideRows(obj, lcm);
+	}
+
+	public Class<T> getPojoClass() {
 		return pojoClass;
 	}
 
@@ -54,11 +60,11 @@ public class APIWrapper {
 		return url;
 	}
 
-	public Object getPojo() {
+	public POJOInterface getPojo() {
 		return pojo;
 	}
 
-	public void setPojo(Object pojo) {
+	public void setPojo(POJOInterface pojo) {
 		this.pojo = pojo;
 	}
 
@@ -70,11 +76,11 @@ public class APIWrapper {
 		this.rawString = rawString;
 	}
 
-	public List<Object> getRows() {
+	public List<? extends POJORowInterface> getRows() {
 		return rows;
 	}
 
-	public void setRows(List<Object> rows) {
+	public void setRows(List<? extends POJORowInterface> rows) {
 		this.rows = rows;
 	}
 
@@ -99,11 +105,11 @@ public class APIWrapper {
 		return builder.toString();
 	}
 
-	public Class<?> getPojoRow() {
+	public Class<U> getPojoRow() {
 		return pojoRow;
 	}
 
-	public void setPojoRow(Class<?> pojoRow) {
+	public void setPojoRow(Class<U> pojoRow) {
 		this.pojoRow = pojoRow;
 	}
 

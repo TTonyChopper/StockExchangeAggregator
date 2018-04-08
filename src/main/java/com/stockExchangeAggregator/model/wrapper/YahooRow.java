@@ -2,11 +2,12 @@ package com.stockExchangeAggregator.model.wrapper;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class YahooRow {
+import com.stockExchangeAggregator.model.acme.POJORowInterface;
+
+public class YahooRow implements POJORowInterface{
 
 	private Long timestamp;
 	private float low;
