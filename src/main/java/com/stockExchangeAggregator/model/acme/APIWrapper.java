@@ -3,54 +3,56 @@ package com.stockExchangeAggregator.model.acme;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class APIWrapper {
+import org.primefaces.model.chart.LineChartModel;
 
-	private Class<?> pojoClass;
-	private Class<?> pojoRow;
-	private String rawString=null;
-	private Object pojo;
+import com.stockExchangeAggregator.providers.ProviderFactory;
+
+public class APIWrapper<T extends POJOInterface, U extends POJORowInterface> {
+	private ProviderFactory providerFactory;
+	private Class<T> pojoClass;
+	private Class<U> pojoRow;
+	private String rawString;
+	private POJOInterface pojo;
 	private String url;
-	private List<Object> rows=new ArrayList<Object>();
-	private List<String> headers=new ArrayList<String>();
-	
+	private List<? extends POJORowInterface> rows = new ArrayList<>();
+	private List<String> headers = new ArrayList<String>();
 
-	public APIWrapper(Class<?> pojoClass, String url) {
+	public APIWrapper(Class<T> pojoClass, Class<U> pojoRow, String url) {
 		super();
-		this.pojoClass = pojoClass;
-		this.url = url;
-	}
-	
-	public APIWrapper(Class<?> pojoClass, Class<?> pojoRow, String url) {
-		super();
+		
+		this.providerFactory = new ProviderFactory();
 		this.pojoClass = pojoClass;
 		this.pojoRow = pojoRow;
 		this.url = url;
-		
+
 		Method method;
 		try {
 			method = pojoRow.getMethod("getHeaders");
-			this.headers=(List<String>) method.invoke(null);
+			this.headers = (List<String>) method.invoke(null);
 		} catch (NoSuchMethodException | SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(headers==null)headers=new ArrayList<String>();
-		
+		if (headers == null)
+			headers = new ArrayList<String>();
 	}
 
-	public Class<?> getPojoClass() {
+	public void drawLineChart(POJOInterface obj, LineChartModel lcm) {
+		providerFactory.getChartProvider(pojoClass).drawLineChart(obj, lcm);
+	}
+
+	public void provideRows(POJOInterface obj, LineChartModel lcm) {
+		rows = providerFactory.getRowProvider(pojoClass).provideRows(obj, lcm);
+	}
+
+	public Class<T> getPojoClass() {
 		return pojoClass;
 	}
 
@@ -58,32 +60,34 @@ public class APIWrapper {
 		return url;
 	}
 
-	public Object getPojo() {
+	public POJOInterface getPojo() {
 		return pojo;
 	}
-	public void setPojo(Object pojo) {
+
+	public void setPojo(POJOInterface pojo) {
 		this.pojo = pojo;
 	}
+
 	public String getRawString() {
 		return rawString;
 	}
+
 	public void setRawString(String rawString) {
 		this.rawString = rawString;
 	}
-	
-	public List<Object> getRows() {
+
+	public List<? extends POJORowInterface> getRows() {
 		return rows;
 	}
 
-	public void setRows(List<Object> rows) {
+	public void setRows(List<? extends POJORowInterface> rows) {
 		this.rows = rows;
 	}
-	
-	
+
 	public List<String> getHeaders() {
 		return headers;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -101,12 +105,12 @@ public class APIWrapper {
 		return builder.toString();
 	}
 
-	public Class<?> getPojoRow() {
+	public Class<U> getPojoRow() {
 		return pojoRow;
 	}
 
-	public void setPojoRow(Class<?> pojoRow) {
+	public void setPojoRow(Class<U> pojoRow) {
 		this.pojoRow = pojoRow;
 	}
-	
+
 }

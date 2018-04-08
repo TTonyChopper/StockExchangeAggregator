@@ -19,7 +19,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class Indicators {
 
     @JsonProperty("quote")
-    private List<Quote> quote = null;
+    private List<Quote> quote;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 

@@ -20,7 +20,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class Chart {
 
     @JsonProperty("result")
-    private List<Result> result = null;
+    private List<Result> result;
     @JsonProperty("error")
     private Object error;
     @JsonIgnore

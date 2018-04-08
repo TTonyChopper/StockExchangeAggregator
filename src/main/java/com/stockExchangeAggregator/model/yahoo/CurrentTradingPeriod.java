@@ -83,7 +83,7 @@ public class CurrentTradingPeriod {
         this.additionalProperties.put(name, value);
     }
 
-    public CurrentTradingPeriod withAdditionalProperty(String name, Object value) {
+    public CurrentTradingPeriod withAFdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
         return this;
     }
