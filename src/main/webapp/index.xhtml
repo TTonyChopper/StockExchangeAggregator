@@ -34,7 +34,7 @@
 			<h:panelGroup layout="block" id="rawString">
 				<h:form>
 					<pe:codeMirror id="codeMirror" theme="cobalt" style="height:auto;"
-						lineNumbers="true" value="#{apiBean.apiWrapper.rawString}"
+						lineNumbers="true" value="#{yahooAPIWrapperBean.apiWrapper.rawString}"
 						matchBrackets="true" />
 				</h:form>
 			</h:panelGroup>
@@ -47,7 +47,7 @@
 			style="height:100%;" resizable="true" closable="false"
 			collapsible="true" effect="drop">
 			<h:panelGroup layout="block" id="rawString">
-				<pre>#{apiBean.apiWrapper.rawString}</pre>				
+				<pre>#{yahooAPIWrapperBean.apiWrapper.rawString}</pre>				
 			</h:panelGroup>
 		</p:layoutUnit>
 
@@ -55,21 +55,21 @@
 
 			<h:form>
 
-				<p:inputTextarea value="#{apiBean.strUrl}" style="width:100%;"
+				<p:inputTextarea value="#{yahooAPIWrapperBean.strUrl}" style="width:100%;"
 					rows="2" />
 
 				<h:panelGroup layout="block" id="graph">
-					<p:chart type="line" model="#{apiBean.lineChart}"
+					<p:chart type="line" model="#{histChartBean.lineChart}"
 						style="height:300px;" />
 
-					<p:poll interval="10" listener="#{apiBean.refresh}"
+					<p:poll interval="10" listener="#{yahooAPIWrapperBean.refresh}"
 						update="graph rawString" />
 						
 					<p:dataTable id="myTable" var="lineResult" 
-					            value="#{apiBean.apiWrapper.rows}" paginatorAlwaysVisible="false"
+					            value="#{yahooAPIWrapperBean.apiWrapper.rows}" paginatorAlwaysVisible="false"
 					            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 					            paginator="true" rows="30" rowKey="#{lineResult}">
-					            <p:columns value="#{apiBean.apiWrapper.headers}" var="column"  columnIndexVar="i" >
+					            <p:columns value="#{yahooAPIWrapperBean.apiWrapper.headers}" var="column"  columnIndexVar="i" >
 					                <f:facet name="header">
 					                    <h:outputText value= "#{column}" />
 					                </f:facet>

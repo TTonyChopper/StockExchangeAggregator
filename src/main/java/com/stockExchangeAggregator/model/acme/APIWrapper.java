@@ -17,11 +17,12 @@ public class APIWrapper<T extends POJOInterface, U extends POJORowInterface> {
 	private POJOInterface pojo;
 	private String url;
 	private List<? extends POJORowInterface> rows = new ArrayList<>();
-	private List<String> headers = new ArrayList<String>();
+	private List<String> headers = new ArrayList<>();
 
+	@SuppressWarnings("unchecked")
 	public APIWrapper(Class<T> pojoClass, Class<U> pojoRow, String url) {
 		super();
-		
+
 		this.providerFactory = new ProviderFactory();
 		this.pojoClass = pojoClass;
 		this.pojoRow = pojoRow;
@@ -41,7 +42,7 @@ public class APIWrapper<T extends POJOInterface, U extends POJORowInterface> {
 			e.printStackTrace();
 		}
 		if (headers == null)
-			headers = new ArrayList<String>();
+			headers = new ArrayList<>();
 	}
 
 	public void drawLineChart(POJOInterface obj, LineChartModel lcm) {
