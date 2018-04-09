@@ -9,8 +9,6 @@
 <h:head>
 </h:head>
 <h:body>
-
-
 	<p:layout fullPage="true">
 		<ui:remove>
 			<p:layoutUnit position="north" size="100" header="Top"
@@ -27,84 +25,83 @@
 				resizable="true" closable="true" collapsible="true">
 
 			</p:layoutUnit>
-			
+
 			<p:layoutUnit position="east" size="40%" header="Right"
-			style="height:100%;" resizable="true" closable="true"
-			collapsible="true" effect="drop">
-			<h:panelGroup layout="block" id="rawString">
-				<h:form>
-					<pe:codeMirror id="codeMirror" theme="cobalt" style="height:auto;"
-						lineNumbers="true" value="#{yahooAPIWrapperBean.apiWrapper.rawString}"
-						matchBrackets="true" />
-				</h:form>
-			</h:panelGroup>
-		</p:layoutUnit>
+				style="height:100%;" resizable="true" closable="true"
+				collapsible="true" effect="drop">
+				<h:panelGroup layout="block" id="rawString">
+					<h:form>
+						<pe:codeMirror id="codeMirror" theme="cobalt" style="height:auto;"
+							lineNumbers="true" value="#{apiBean.apiWrapper.rawString}"
+							matchBrackets="true" />
+					</h:form>
+				</h:panelGroup>
+			</p:layoutUnit>
+			
+			<p:poll interval="10" listener="#{apiBean.refresh}"
+							update="graph rawString" />
 		</ui:remove>
 
-
+		<p:layoutUnit position="west" size="200" header="Configuration"
+				resizable="true" closable="false" collapsible="true" collapsed="true" >
+				
+				<h:form>
+					
+					<h:outputText value="Auto Update: " />
+					<p:inputSwitch value="#{apiBean.bDoUpdate}">
+			            <p:ajax render=":#{p:component('graph')}" event="change"/>
+			        </p:inputSwitch>			        
+			        
+					<h:outputText value="Refresh interval: " />
+					<p:inputText id="inputRefreshInterval" value="#{apiBean.refreshInterval}" />
+        			<p:slider for="inputRefreshInterval" minValue="1" step="1" >
+        				<p:ajax render=":#{p:component('graph')}" event="slideEnd" listener="#{apiBean.onSlideEnd_RefreshInterval}"/>
+        			</p:slider>
+        			
+				</h:form>
+		</p:layoutUnit>
 
 		<p:layoutUnit position="east" size="40%" header="Right"
 			style="height:100%;" resizable="true" closable="false"
 			collapsible="true" effect="drop">
 			<h:panelGroup layout="block" id="rawString">
-				<pre>#{yahooAPIWrapperBean.apiWrapper.rawString}</pre>				
+				<pre>#{apiBean.apiWrapper.rawString}</pre>
 			</h:panelGroup>
 		</p:layoutUnit>
 
 		<p:layoutUnit position="center" header="Center">
+				
+			<h:form>							
+					<p:inputTextarea value="#{apiBean.strUrl}" style="width:100%;" rows="2" >
+						<f:ajax render=":#{p:component('graph')}"/>
+					</p:inputTextarea>
 
-			<h:form>
-
-				<p:inputTextarea value="#{yahooAPIWrapperBean.strUrl}" style="width:100%;"
-					rows="2" />
-
-				<h:panelGroup layout="block" id="graph">
-					<p:chart type="line" model="#{histChartBean.lineChart}"
-						style="height:300px;" />
-
-					<p:poll interval="10" listener="#{yahooAPIWrapperBean.refresh}"
-						update="graph rawString" />
-						
-					<p:dataTable id="myTable" var="lineResult" 
-					            value="#{yahooAPIWrapperBean.apiWrapper.rows}" paginatorAlwaysVisible="false"
-					            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-					            paginator="true" rows="30" rowKey="#{lineResult}">
-					            <p:columns value="#{yahooAPIWrapperBean.apiWrapper.headers}" var="column"  columnIndexVar="i" >
-					                <f:facet name="header">
-					                    <h:outputText value= "#{column}" />
-					                </f:facet>
-					                <h:outputText value= "#{lineResult.get(column)}" />
-					            </p:columns>
-					</p:dataTable>
+					<h:panelGroup layout="block" id="graph">
+						<p:poll interval="#{apiBean.refreshInterval}" listener="#{apiBean.refresh}"
+							update="graph rawString" rendered="#{apiBean.bDoUpdate}"/>
 					
+						<p:chart type="line" model="#{histChartBean.lineChart}"
+							style="height:300px;" />					
 
-				</h:panelGroup>
-
-
+						<p:dataTable id="myTable" var="lineResult"
+							value="#{apiBean.apiWrapper.rows}" paginatorAlwaysVisible="false"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+							paginator="true" rows="30" rowKey="#{lineResult}" lazy="false" reflow="true">
+							<p:columns value="#{apiBean.apiWrapper.headers}" var="column"
+								columnIndexVar="i">
+								<f:facet name="header">
+									<h:outputText value="#{column}" />
+								</f:facet>
+								<h:outputText value="#{lineResult.get(column)}" />
+							</p:columns>
+						</p:dataTable>
+					</h:panelGroup>
+				
 			</h:form>
+
 		</p:layoutUnit>
 
 	</p:layout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </h:body>
 </html>
