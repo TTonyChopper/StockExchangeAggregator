@@ -94,7 +94,6 @@ public class YahooRow implements POJORowInterface{
 	
 	public Object get(String s) {
 		Object ret=null;
-		
 		Method method;
 		try {
 			method = this.getClass().getMethod("get"+s);
