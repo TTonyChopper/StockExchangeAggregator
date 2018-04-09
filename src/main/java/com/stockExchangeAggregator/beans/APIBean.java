@@ -2,9 +2,12 @@ package com.stockExchangeAggregator.beans;
 
 import java.io.IOException;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
+import org.apache.http.client.HttpResponseException;
 import org.primefaces.event.SlideEndEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +29,8 @@ public class APIBean {
 
 	private String strUrl;
 	private APIWrapper<Yahoo, YahooRow> apiWrapper;
-	private Boolean bDoUpdate=true;
-	private int refreshInterval=10;
+	private Boolean bDoUpdate=false;
+	private int refreshInterval=30;
 
 	public APIBean() {
 		super();
@@ -42,17 +45,23 @@ public class APIBean {
 	}
 
 	public void refresh() {
-		String res = CurlProvider.getInstance().getURI(strUrl, HttpMethod.GET, null);
-		LOG.debug("res="+res);
-		System.out.println("res="+res);
-		System.out.println("refreshInterval="+refreshInterval);
+		String res=null;
+		try {
+			res = CurlProvider.getInstance().getURI(strUrl, HttpMethod.GET, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+			FacesContext context = FacesContext.getCurrentInstance();	         
+	        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",  e.getMessage()) );
+		}
+		//LOG.debug("res="+res);
+		//System.out.println("res="+res);
+		//System.out.println("refreshInterval="+refreshInterval);
 		if (res != null && !res.equals("")) {
 			apiWrapper.setRawString(res);
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.enable(SerializationFeature.INDENT_OUTPUT);
 			try {
 				POJOInterface obj = mapper.readValue(res, apiWrapper.getPojoClass());
-				// System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj));
 				apiWrapper.setRawString(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj));
 				apiWrapper.setPojo(obj);
 			} catch (IOException e) {

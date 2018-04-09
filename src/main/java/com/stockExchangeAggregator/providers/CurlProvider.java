@@ -97,22 +97,22 @@ public class CurlProvider {
 		return response;
 	}
 
-	public String getURI(String url, HttpMethod method, String payload) {
+	public String getURI(String url, HttpMethod method, String payload) throws HttpResponseException, IOException {
 		return getURI(url, method, payload, null);
 	}
 
-	public String getURI(String url, HttpMethod method, String payload, Map<String, String> headers) {
+	public String getURI(String url, HttpMethod method, String payload, Map<String, String> headers) throws HttpResponseException, IOException {
 		HttpResponse response = getResponse(url, method, payload, headers);
 
 		String responseString = "";
-		try {
+		//try {
 			responseString = new BasicResponseHandler().handleResponse(response);
-		} catch (HttpResponseException e) {
+		/*} catch (HttpResponseException e) {
 			System.err.println("Err:" + url);
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 		return responseString;
 	}
 

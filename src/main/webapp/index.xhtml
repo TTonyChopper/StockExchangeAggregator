@@ -54,7 +54,7 @@
 			        
 					<h:outputText value="Refresh interval: " />
 					<p:inputText id="inputRefreshInterval" value="#{apiBean.refreshInterval}" />
-        			<p:slider for="inputRefreshInterval" minValue="1" step="1" >
+        			<p:slider for="inputRefreshInterval" minValue="5" step="1" >
         				<p:ajax render=":#{p:component('graph')}" event="slideEnd" listener="#{apiBean.onSlideEnd_RefreshInterval}"/>
         			</p:slider>
         			
@@ -71,31 +71,32 @@
 
 		<p:layoutUnit position="center" header="Center">
 				
-			<h:form>							
-					<p:inputTextarea value="#{apiBean.strUrl}" style="width:100%;" rows="2" >
-						<f:ajax render=":#{p:component('graph')}"/>
-					</p:inputTextarea>
+			<h:form>	
+				<p:growl id="growl" showDetail="true" sticky="false" /> 					
+				<p:inputTextarea value="#{apiBean.strUrl}" style="width:100%;" rows="2" >
+					<p:ajax update=":#{p:component('graph')} :#{p:component('rawString')} :#{p:component('growl')}" listener="#{apiBean.refresh}" />
+				</p:inputTextarea>
 
-					<h:panelGroup layout="block" id="graph">
-						<p:poll interval="#{apiBean.refreshInterval}" listener="#{apiBean.refresh}"
-							update="graph rawString" rendered="#{apiBean.bDoUpdate}"/>
-					
-						<p:chart type="line" model="#{histChartBean.lineChart}"
-							style="height:300px;" />					
+				<h:panelGroup layout="block" id="graph">
+					<p:poll interval="#{apiBean.refreshInterval}" listener="#{apiBean.refresh}"
+						update="graph rawString growl" rendered="#{apiBean.bDoUpdate}"/>
+				
+					<p:chart type="line" model="#{histChartBean.lineChart}"
+						style="height:300px;" />					
 
-						<p:dataTable id="myTable" var="lineResult"
-							value="#{apiBean.apiWrapper.rows}" paginatorAlwaysVisible="false"
-							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-							paginator="true" rows="30" rowKey="#{lineResult}" lazy="false" reflow="true">
-							<p:columns value="#{apiBean.apiWrapper.headers}" var="column"
-								columnIndexVar="i">
-								<f:facet name="header">
-									<h:outputText value="#{column}" />
-								</f:facet>
-								<h:outputText value="#{lineResult.get(column)}" />
-							</p:columns>
-						</p:dataTable>
-					</h:panelGroup>
+					<p:dataTable id="myTable" var="lineResult"
+						value="#{apiBean.apiWrapper.rows}" paginatorAlwaysVisible="false"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+						paginator="true" rows="30" rowKey="#{lineResult}" lazy="false" reflow="true">
+						<p:columns value="#{apiBean.apiWrapper.headers}" var="column"
+							columnIndexVar="i">
+							<f:facet name="header">
+								<h:outputText value="#{column}" />
+							</f:facet>
+							<h:outputText value="#{lineResult.get(column)}" />
+						</p:columns>
+					</p:dataTable>
+				</h:panelGroup>
 				
 			</h:form>
 

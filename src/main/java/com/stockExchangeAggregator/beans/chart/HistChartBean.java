@@ -1,6 +1,7 @@
 package com.stockExchangeAggregator.beans.chart;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.model.chart.LineChartModel;
@@ -12,6 +13,7 @@ import com.stockExchangeAggregator.model.wrapper.YahooRow;
 import com.stockExchangeAggregator.model.yahoo.Yahoo;
 
 @ManagedBean(name = "histChartBean")
+@SessionScoped
 public class HistChartBean {
 	private APIBean apiBean;
 
