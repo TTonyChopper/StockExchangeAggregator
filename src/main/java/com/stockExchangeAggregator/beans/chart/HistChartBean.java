@@ -48,5 +48,5 @@ public class HistChartBean {
 
 		return lcm;
 	}
-
+	
 }

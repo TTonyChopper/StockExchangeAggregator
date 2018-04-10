@@ -9,6 +9,9 @@
 <h:head>
 </h:head>
 <h:body>
+
+<h:outputScript library="default" name = "js/Chart.js" /> 
+
 	<p:layout fullPage="true">
 		<ui:remove>
 			<p:layoutUnit position="north" size="100" header="Top"
@@ -18,12 +21,10 @@
 
 			<p:layoutUnit position="south" size="100" header="Bottom"
 				resizable="true" closable="true" collapsible="true">
-
 			</p:layoutUnit>
 
 			<p:layoutUnit position="west" size="200" header="Left"
 				resizable="true" closable="true" collapsible="true">
-
 			</p:layoutUnit>
 
 			<p:layoutUnit position="east" size="40%" header="Right"
@@ -81,8 +82,18 @@
 					<p:poll interval="#{apiBean.refreshInterval}" listener="#{apiBean.refresh}"
 						update="graph rawString growl" rendered="#{apiBean.bDoUpdate}"/>
 				
-					<p:chart type="line" model="#{histChartBean.lineChart}"
-						style="height:300px;" />					
+					<div class="chart-container" style="position:relative; width:100%">
+    					<canvas id="myChart"></canvas>
+					</div>
+					<h:outputScript library="default" name = "js/StockChart.js" /> 
+					<h:form>
+    					<p:commandLink action="#{lineChartBean.retrieveLineChartData}"
+                   			oncomplete="drawLineChart(xhr,status,args);"
+                   			value="Generate line chart" />
+					</h:form>
+				    
+					<!-- <p:chart type="line" model="#{histChartBean.lineChart}"
+						style="height:300px;" /> -->					
 
 					<p:dataTable id="myTable" var="lineResult"
 						value="#{apiBean.apiWrapper.rows}" paginatorAlwaysVisible="false"
