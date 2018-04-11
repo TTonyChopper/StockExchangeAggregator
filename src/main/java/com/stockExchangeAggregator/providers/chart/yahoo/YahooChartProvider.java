@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.primefaces.model.chart.Axis;
@@ -18,6 +19,7 @@ import com.stockExchangeAggregator.model.yahoo.Quote;
 import com.stockExchangeAggregator.model.yahoo.Result;
 import com.stockExchangeAggregator.model.yahoo.Yahoo;
 import com.stockExchangeAggregator.providers.chart.ChartProviderInterface;
+import com.stockExchangeAggregator.providers.chart.LineChartData;
 
 public class YahooChartProvider implements ChartProviderInterface<Yahoo>
 {
@@ -63,5 +65,30 @@ public class YahooChartProvider implements ChartProviderInterface<Yahoo>
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public LineChartData getLineChartData(POJOInterface model)
+	{
+		LineChartData lineChartData = new LineChartData();
+		
+		Result r = ((Yahoo) model).getChart().getResult().get(0);
+		
+		lineChartData.ySetLabel = r.getMeta().getSymbol();
+		
+		List<Long> listTs = r.getTimestamp();
+		lineChartData.xLabels = listTs.stream()
+                .map(String::valueOf)
+                .collect(Collectors.toList());
+		
+		Quote q = r.getIndicators().getQuote().get(0);
+		List<Double> listClose = q.getClose();
+		lineChartData.ySet = listClose.stream()
+				.map(String::valueOf)
+				.collect(Collectors.toList());
+		
+		lineChartData.xSet = Collections.emptyList();
+		
+		return lineChartData;
 	}
 }
