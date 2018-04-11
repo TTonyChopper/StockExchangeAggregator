@@ -73,32 +73,44 @@
 		<p:layoutUnit position="center" header="Center">
 				
 			<h:form>	
-				<p:growl id="growl" showDetail="true" sticky="false" /> 					
-				<p:inputTextarea value="#{apiBean.strUrl}" style="width:100%;" rows="2" >
-					<p:ajax update=":#{p:component('graph')} :#{p:component('rawString')} :#{p:component('growl')}" listener="#{apiBean.refresh}" />
+				<p:growl id="growl" showDetail="true" sticky="false" />
+				<p:inputTextarea value="#{apiBean.strUrl}" style="width:100%;"
+					rows="2">
+					<p:ajax
+						update=":#{p:component('graph')} :#{p:component('rawString')} :#{p:component('growl')}"
+						listener="#{apiBean.refresh}" />
 				</p:inputTextarea>
 
 				<h:panelGroup layout="block" id="graph">
-					<p:poll interval="#{apiBean.refreshInterval}" listener="#{apiBean.refresh}"
-						update="graph rawString growl" rendered="#{apiBean.bDoUpdate}"/>
-				
-					<div class="chart-container" style="position:relative; width:100%">
-    					<canvas id="myChart"></canvas>
-					</div>
-					<h:outputScript library="default" name = "js/StockChart.js" /> 
-					<h:form>
-    					<p:commandLink action="#{lineChartBean.retrieveLineChartData}"
-                   			oncomplete="drawLineChart(xhr,status,args);"
-                   			value="Generate line chart" />
-					</h:form>
-				    
-					<!-- <p:chart type="line" model="#{histChartBean.lineChart}"
-						style="height:300px;" /> -->					
+					<p:poll interval="#{apiBean.refreshInterval}"
+						listener="#{apiBean.refresh}" update="graph rawString growl"
+						rendered="#{apiBean.bDoUpdate}" />
+
+					<p:tabView dynamic="true" cache="true" effect="fold">
+						<p:tab title="Chart1">
+							<div class="chart-container"
+								style="position: relative; width: 100%">
+								<canvas id="myChart"></canvas>
+							</div>
+
+							<h:outputScript library="default" name="js/StockChart.js" />
+							<h:form>
+								<p:commandLink action="#{lineChartBean.retrieveLineChartData}"
+									oncomplete="drawLineChart(xhr,status,args);"
+									value="Generate line chart" />
+							</h:form>
+						</p:tab>
+						<p:tab title="Chart2">
+							<p:chart type="line" model="#{histChartBean.lineChart}"
+								style="height:300px;" />
+						</p:tab>
+					</p:tabView>
 
 					<p:dataTable id="myTable" var="lineResult"
 						value="#{apiBean.apiWrapper.rows}" paginatorAlwaysVisible="false"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-						paginator="true" rows="30" rowKey="#{lineResult}" lazy="false" reflow="true">
+						paginator="true" rows="30" rowKey="#{lineResult}" lazy="false"
+						reflow="true">
 						<p:columns value="#{apiBean.apiWrapper.headers}" var="column"
 							columnIndexVar="i">
 							<f:facet name="header">
@@ -108,7 +120,7 @@
 						</p:columns>
 					</p:dataTable>
 				</h:panelGroup>
-				
+
 			</h:form>
 
 		</p:layoutUnit>

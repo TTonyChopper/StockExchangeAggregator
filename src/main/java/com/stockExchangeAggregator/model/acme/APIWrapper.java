@@ -8,6 +8,7 @@ import java.util.List;
 import org.primefaces.model.chart.LineChartModel;
 
 import com.stockExchangeAggregator.providers.ProviderFactory;
+import com.stockExchangeAggregator.providers.chart.LineChartData;
 
 public class APIWrapper<T extends POJOInterface, U extends POJORowInterface> {
 	private ProviderFactory providerFactory;
@@ -47,6 +48,10 @@ public class APIWrapper<T extends POJOInterface, U extends POJORowInterface> {
 
 	public void drawLineChart(POJOInterface obj, LineChartModel lcm) {
 		providerFactory.getChartProvider(pojoClass).drawLineChart(obj, lcm);
+	}
+	
+	public LineChartData getLineChartData(POJOInterface obj) {
+		return providerFactory.getChartProvider(pojoClass).getLineChartData(obj);
 	}
 
 	public void provideRows(POJOInterface obj, LineChartModel lcm) {
