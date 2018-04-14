@@ -5,10 +5,13 @@ import java.util.Map;
 
 import com.stockExchangeAggregator.model.acme.POJOInterface;
 import com.stockExchangeAggregator.model.acme.POJORowInterface;
+import com.stockExchangeAggregator.model.alpha.Alpha;
 import com.stockExchangeAggregator.model.yahoo.Yahoo;
 import com.stockExchangeAggregator.providers.chart.ChartProviderInterface;
+import com.stockExchangeAggregator.providers.chart.alpha.AlphaChartProvider;
 import com.stockExchangeAggregator.providers.chart.yahoo.YahooChartProvider;
 import com.stockExchangeAggregator.providers.row.RowProviderInterface;
+import com.stockExchangeAggregator.providers.row.alpha.AlphaRowProvider;
 import com.stockExchangeAggregator.providers.row.yahoo.YahooRowProvider;
 
 public class ProviderFactory {
@@ -18,7 +21,10 @@ public class ProviderFactory {
 	static
 	{
 		chartProviders.put(Yahoo.class, new YahooChartProvider());
+		chartProviders.put(Alpha.class, new AlphaChartProvider());
+		
 		rowProviders.put(Yahoo.class, new YahooRowProvider());
+		rowProviders.put(Alpha.class, new AlphaRowProvider());
 	}
 	
 	public ProviderFactory() {

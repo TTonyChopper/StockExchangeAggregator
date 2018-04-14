@@ -65,6 +65,10 @@ public class APIWrapper<T extends POJOInterface, U extends POJORowInterface> {
 	public String getUrl() {
 		return url;
 	}
+	
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 	public POJOInterface getPojo() {
 		return pojo;
