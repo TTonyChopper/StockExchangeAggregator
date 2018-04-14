@@ -1,6 +1,7 @@
 package com.stockExchangeAggregator.providers.serializer.alpha;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
@@ -51,6 +52,9 @@ public class AlphaDeserializer extends JsonDeserializer<Alpha> implements Deseri
 			Entry<String, JsonNode> entry = it.next();
 			deserializeTimeSerie(alpha, entry.getKey(), entry.getValue());
 		}
+		
+		//reverse order
+		Collections.reverse(alpha.getTimeSeries());
 	}
 
 	private void deserializeAlphaChild(Alpha alpha, String key, JsonNode node)

@@ -37,7 +37,7 @@ public class APIBean {
 	}
 
 	public APIWrapper getApiWrapper() {
-		return currentApiWrapper = feedMgr.getYahooApiWrapper();
+		return currentApiWrapper = feedMgr.getAlphaApiWrapper();
 	}
 
 	public void refresh() {
