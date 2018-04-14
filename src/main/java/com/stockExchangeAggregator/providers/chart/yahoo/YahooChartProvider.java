@@ -21,17 +21,15 @@ import com.stockExchangeAggregator.model.yahoo.Yahoo;
 import com.stockExchangeAggregator.providers.chart.ChartProviderInterface;
 import com.stockExchangeAggregator.providers.chart.LineChartData;
 
-public class YahooChartProvider implements ChartProviderInterface<Yahoo>
-{
+public class YahooChartProvider implements ChartProviderInterface<Yahoo> {
 	@Override
-	public void drawLineChart(POJOInterface model, LineChartModel lcm)
-	{
+	public void drawLineChart(POJOInterface model, LineChartModel lcm) {
 		Result r = ((Yahoo) model).getChart().getResult().get(0);
 		List<Long> listTs = r.getTimestamp();
 		Quote q = r.getIndicators().getQuote().get(0);
 		List<Long> listOpen = q.getOpen();
 		List<Double> listClose = q.getClose();
-		
+
 		LineChartSeries myLine = new LineChartSeries();
 		myLine.setFill(true);
 		myLine.setLabel("Close");
@@ -66,29 +64,24 @@ public class YahooChartProvider implements ChartProviderInterface<Yahoo>
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
-	public LineChartData getLineChartData(POJOInterface model)
-	{
+	public LineChartData getLineChartData(POJOInterface model) {
 		LineChartData lineChartData = new LineChartData();
-		
+
 		Result r = ((Yahoo) model).getChart().getResult().get(0);
-		
+
 		lineChartData.ySetLabel = r.getMeta().getSymbol();
-		
+
 		List<Long> listTs = r.getTimestamp();
-		lineChartData.xLabels = listTs.stream()
-                .map(String::valueOf)
-                .collect(Collectors.toList());
-		
+		lineChartData.xLabels = listTs.stream().map(String::valueOf).collect(Collectors.toList());
+
 		Quote q = r.getIndicators().getQuote().get(0);
 		List<Double> listClose = q.getClose();
-		lineChartData.ySet = listClose.stream()
-				.map(String::valueOf)
-				.collect(Collectors.toList());
-		
+		lineChartData.ySet = listClose.stream().map(String::valueOf).collect(Collectors.toList());
+
 		lineChartData.xSet = Collections.emptyList();
-		
+
 		return lineChartData;
 	}
 }

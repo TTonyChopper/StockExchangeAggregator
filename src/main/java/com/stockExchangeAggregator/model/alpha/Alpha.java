@@ -1,7 +1,6 @@
 package com.stockExchangeAggregator.model.alpha;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -14,12 +13,11 @@ import com.stockExchangeAggregator.model.yahoo.Chart;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({ "Meta Data", "Time Serie" })
-public class Alpha implements POJOInterface{
+public class Alpha implements POJOInterface {
 
 	@JsonProperty("Meta Data")
 	private MetaData metaData;
-	@JsonProperty("Time Series")
-	private List<TimeSerie> timeSeries;
+
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -33,15 +31,11 @@ public class Alpha implements POJOInterface{
 		this.metaData = metaData;
 	}
 
-	@JsonProperty("Time Series")
-	public List<TimeSerie> getTimeSeries() {
-		return timeSeries;
-	}
-
-	@JsonProperty("Time Series")
-	public void addTimeSerie(TimeSerie timeSerie) {
-		timeSeries.add(timeSerie);
-	}
+	/*
+	 * public List<TimeSerie> getTimeSeries() { return timeSeries; }
+	 * 
+	 * public void addTimeSerie(TimeSerie timeSerie) { timeSeries.add(timeSerie); }
+	 */
 
 	@JsonAnyGetter
 	public Map<String, Object> getAdditionalProperties() {

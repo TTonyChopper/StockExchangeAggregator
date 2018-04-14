@@ -9,10 +9,10 @@ import org.primefaces.model.chart.LineChartModel;
 import com.stockExchangeAggregator.beans.APIBean;
 import com.stockExchangeAggregator.model.acme.APIWrapper;
 import com.stockExchangeAggregator.model.acme.POJOInterface;
-import com.stockExchangeAggregator.model.wrapper.AlphaRow;
 
 @ManagedBean(name = "histChartBean")
 @SessionScoped
+@SuppressWarnings("rawtypes")
 public class HistChartBean {
 	private APIBean apiBean;
 
@@ -29,6 +29,7 @@ public class HistChartBean {
 	@SuppressWarnings("unchecked")
 	public LineChartModel getLineChart() {
 		LineChartModel lcm = new LineChartModel();
+
 		APIWrapper apiWrapper = apiBean.getApiWrapper();
 		POJOInterface obj = apiWrapper.getPojo();
 
@@ -47,5 +48,5 @@ public class HistChartBean {
 
 		return lcm;
 	}
-	
+
 }

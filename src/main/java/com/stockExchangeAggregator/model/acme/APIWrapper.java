@@ -1,5 +1,6 @@
 package com.stockExchangeAggregator.model.acme;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -7,6 +8,8 @@ import java.util.List;
 
 import org.primefaces.model.chart.LineChartModel;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.stockExchangeAggregator.providers.ProviderFactory;
 import com.stockExchangeAggregator.providers.chart.LineChartData;
 
@@ -46,10 +49,14 @@ public class APIWrapper<T extends POJOInterface, U extends POJORowInterface> {
 			headers = new ArrayList<>();
 	}
 
+	public POJOInterface deserializeJSON(String json) throws JsonParseException, JsonMappingException, IOException {
+		return providerFactory.getDeserializer(pojoClass).deserializeJSON(json, pojoClass);
+	}
+
 	public void drawLineChart(POJOInterface obj, LineChartModel lcm) {
 		providerFactory.getChartProvider(pojoClass).drawLineChart(obj, lcm);
 	}
-	
+
 	public LineChartData getLineChartData(POJOInterface obj) {
 		return providerFactory.getChartProvider(pojoClass).getLineChartData(obj);
 	}
@@ -65,7 +72,7 @@ public class APIWrapper<T extends POJOInterface, U extends POJORowInterface> {
 	public String getUrl() {
 		return url;
 	}
-	
+
 	public void setUrl(String url) {
 		this.url = url;
 	}
