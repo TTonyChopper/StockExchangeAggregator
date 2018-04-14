@@ -1,8 +1,6 @@
-package com.stockExchangeAggregator.providers.chart.yahoo;
+package com.stockExchangeAggregator.providers.chart.alpha;
 
-import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -15,40 +13,39 @@ import org.primefaces.model.chart.LineChartSeries;
 import org.primefaces.model.chart.LinearAxis;
 
 import com.stockExchangeAggregator.model.acme.POJOInterface;
-import com.stockExchangeAggregator.model.yahoo.Quote;
-import com.stockExchangeAggregator.model.yahoo.Result;
-import com.stockExchangeAggregator.model.yahoo.Yahoo;
+import com.stockExchangeAggregator.model.alpha.Alpha;
 import com.stockExchangeAggregator.providers.chart.ChartProviderInterface;
 import com.stockExchangeAggregator.providers.chart.LineChartData;
 
-public class YahooChartProvider implements ChartProviderInterface<Yahoo> {
+public class AlphaChartProvider implements ChartProviderInterface<Alpha> {
 	@Override
 	public void drawLineChart(POJOInterface model, LineChartModel lcm) {
-		Result r = ((Yahoo) model).getChart().getResult().get(0);
-		List<Long> listTs = r.getTimestamp();
-		Quote q = r.getIndicators().getQuote().get(0);
-		List<Long> listOpen = q.getOpen();
-		List<Double> listClose = q.getClose();
+		Alpha alpha = (Alpha) model;
+		
+		List<String> listTs = alpha.getTimeSeries().stream().map(serie -> serie.getName())
+				.collect(Collectors.toList());
+		List<Double> listOpen = alpha.getTimeSeries().stream().map(serie -> serie.get1Open())
+				.map(Double::valueOf).collect(Collectors.toList());
+		List<String> listClose = alpha.getTimeSeries().stream().map(serie -> serie.get4Close())
+				.collect(Collectors.toList());
 
 		LineChartSeries myLine = new LineChartSeries();
 		myLine.setFill(true);
 		myLine.setLabel("Close");
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		IntStream.range(0, listTs.size()).boxed().forEachOrdered(i -> {
-			String vTs = sdf.format(new Date(listTs.get(i) * 1000));
-			Double val = listClose.get(i);
-			myLine.set(vTs, val);
+			Double val = Double.parseDouble(listClose.get(i));
+			myLine.set(listTs.get(i), val);
 		});
 
 		lcm.addSeries(myLine);
 		lcm.setZoom(true);
 		DateAxis axisX = new DateAxis("Dates");
 		axisX.setTickAngle(-50);
-		axisX.setMax(sdf.format(new Date(listTs.get(listTs.size() - 1) * 1000)));
+		axisX.setMax(listTs.get(listTs.size() -1 ));
 		axisX.setTickFormat("%b %#d, %y %H:%#M:%S");
 		// axis.getTickInterval();
-		axisX.setMin(sdf.format(new Date(listTs.get(0) * 1000)));
+		axisX.setMin(listTs.get(0));
 		// axis.setTickInterval("1");
 		// axis.setTickFormat("%M");
 
@@ -69,16 +66,15 @@ public class YahooChartProvider implements ChartProviderInterface<Yahoo> {
 	public LineChartData getLineChartData(POJOInterface model) {
 		LineChartData lineChartData = new LineChartData();
 
-		Result r = ((Yahoo) model).getChart().getResult().get(0);
+		Alpha alpha = (Alpha) model;
 
-		lineChartData.ySetLabel = r.getMeta().getSymbol();
+		lineChartData.ySetLabel = alpha.getMetaData().get2Symbol();
 
-		List<Long> listTs = r.getTimestamp();
-		lineChartData.xLabels = listTs.stream().map(String::valueOf).collect(Collectors.toList());
+		lineChartData.ySet = alpha.getTimeSeries().stream().map(serie -> serie.get4Close())
+				.collect(Collectors.toList());
 
-		Quote q = r.getIndicators().getQuote().get(0);
-		List<Double> listClose = q.getClose();
-		lineChartData.ySet = listClose.stream().map(String::valueOf).collect(Collectors.toList());
+		lineChartData.xLabels = alpha.getTimeSeries().stream().map(serie -> serie.getName())
+				.collect(Collectors.toList());
 
 		lineChartData.xSet = Collections.emptyList();
 

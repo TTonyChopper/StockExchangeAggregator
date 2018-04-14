@@ -26,7 +26,6 @@ public class LineChartBean {
 				.getValue(facesContext.getELContext());
 	}
 	
-	//"BTC-EUR";
 	private LineChartData getLineChartData() {
 		return apiBean.getApiWrapper().getLineChartData(apiBean.getApiWrapper().getPojo());
 	}

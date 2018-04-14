@@ -13,10 +13,8 @@ import com.stockExchangeAggregator.model.yahoo.Result;
 import com.stockExchangeAggregator.model.yahoo.Yahoo;
 import com.stockExchangeAggregator.providers.row.RowProviderInterface;
 
-public class YahooRowProvider implements RowProviderInterface<YahooRow>
-{
-	public List<YahooRow> provideRows(POJOInterface model, LineChartModel lcm)
-	{
+public class YahooRowProvider implements RowProviderInterface<YahooRow> {
+	public List<YahooRow> provideRows(POJOInterface model, LineChartModel lcm) {
 		Result r = ((Yahoo) model).getChart().getResult().get(0);
 		List<Long> listTs = r.getTimestamp();
 		Quote q = r.getIndicators().getQuote().get(0);
@@ -27,8 +25,7 @@ public class YahooRowProvider implements RowProviderInterface<YahooRow>
 		List<Long> listVolume = q.getVolume();
 
 		// TODO Rework Null case
-		if (listOpen.size() == 0)
-		{
+		if (listOpen.size() == 0) {
 			return Collections.emptyList();
 		}
 
