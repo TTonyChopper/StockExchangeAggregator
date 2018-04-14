@@ -1,12 +1,10 @@
 package com.stockExchangeAggregator.model.alpha;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.stockExchangeAggregator.model.acme.POJOInterface;
 import com.stockExchangeAggregator.model.yahoo.Chart;
@@ -15,34 +13,40 @@ import com.stockExchangeAggregator.model.yahoo.Chart;
 @JsonPropertyOrder({ "Meta Data", "Time Serie" })
 public class Alpha implements POJOInterface {
 
-	@JsonProperty("Meta Data")
 	private MetaData metaData;
+	private String timeSeriesKey;
+	private List<TimeSerie> timeSeries = new ArrayList<>();
 
-	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-	@JsonProperty("Meta Data")
 	public MetaData getMetaData() {
 		return metaData;
 	}
 
-	@JsonProperty("Meta Data")
 	public void setMetaData(MetaData metaData) {
 		this.metaData = metaData;
 	}
+	
+	public String getTimeSeriesKey() {
+		return timeSeriesKey;
+	}
 
-	/*
-	 * public List<TimeSerie> getTimeSeries() { return timeSeries; }
-	 * 
-	 * public void addTimeSerie(TimeSerie timeSerie) { timeSeries.add(timeSerie); }
-	 */
+	public void setTimeSeriesKey(String timeSeriesKey) {
+		this.timeSeriesKey = timeSeriesKey;
+	}
 
-	@JsonAnyGetter
+	public List<TimeSerie> getTimeSeries() {
+		return timeSeries;
+	}
+
+	public void addTimeSerie(TimeSerie timeSerie) {
+		timeSeries.add(timeSerie);
+	}
+
 	public Map<String, Object> getAdditionalProperties() {
 		return this.additionalProperties;
 	}
 
-	@JsonAnySetter
 	public void setAdditionalProperty(String name, Object value) {
 		this.additionalProperties.put(name, value);
 	}
