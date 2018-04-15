@@ -60,11 +60,4 @@ public class Alpha implements POJOInterface
 	{
 		this.additionalProperties.put(name, value);
 	}
-
-	@Override
-	public Chart getChart()
-	{
-		return null;
-	}
-
 }
