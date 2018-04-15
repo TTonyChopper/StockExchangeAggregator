@@ -13,8 +13,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "meta", "timestamp", "indicators" })
-public class Result {
+@JsonPropertyOrder(
+{ "meta", "timestamp", "indicators" })
+public class Result
+{
 
 	@JsonProperty("meta")
 	private Meta meta;
@@ -26,67 +28,80 @@ public class Result {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 	@JsonProperty("meta")
-	public Meta getMeta() {
+	public Meta getMeta()
+	{
 		return meta;
 	}
 
 	@JsonProperty("meta")
-	public void setMeta(Meta meta) {
+	public void setMeta(Meta meta)
+	{
 		this.meta = meta;
 	}
 
-	public Result withMeta(Meta meta) {
+	public Result withMeta(Meta meta)
+	{
 		this.meta = meta;
 		return this;
 	}
 
 	@JsonProperty("timestamp")
-	public List<Long> getTimestamp() {
+	public List<Long> getTimestamp()
+	{
 		return timestamp;
 	}
 
 	@JsonProperty("timestamp")
-	public void setTimestamp(List<Long> timestamp) {
+	public void setTimestamp(List<Long> timestamp)
+	{
 		this.timestamp = timestamp;
 	}
 
-	public Result withTimestamp(List<Long> timestamp) {
+	public Result withTimestamp(List<Long> timestamp)
+	{
 		this.timestamp = timestamp;
 		return this;
 	}
 
 	@JsonProperty("indicators")
-	public Indicators getIndicators() {
+	public Indicators getIndicators()
+	{
 		return indicators;
 	}
 
 	@JsonProperty("indicators")
-	public void setIndicators(Indicators indicators) {
+	public void setIndicators(Indicators indicators)
+	{
 		this.indicators = indicators;
 	}
 
-	public Result withIndicators(Indicators indicators) {
+	public Result withIndicators(Indicators indicators)
+	{
 		this.indicators = indicators;
 		return this;
 	}
 
 	@JsonAnyGetter
-	public Map<String, Object> getAdditionalProperties() {
+	public Map<String, Object> getAdditionalProperties()
+	{
 		return this.additionalProperties;
 	}
 
 	@JsonAnySetter
-	public void setAdditionalProperty(String name, Object value) {
+	public void setAdditionalProperty(String name, Object value)
+	{
 		this.additionalProperties.put(name, value);
 	}
 
-	public Result withAdditionalProperty(String name, Object value) {
+	public Result withAdditionalProperty(String name, Object value)
+	{
 		this.additionalProperties.put(name, value);
 		return this;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return new ToStringBuilder(this).append("meta", meta).append("timestamp", timestamp)
 				.append("indicators", indicators).append("additionalProperties", additionalProperties).toString();
 	}

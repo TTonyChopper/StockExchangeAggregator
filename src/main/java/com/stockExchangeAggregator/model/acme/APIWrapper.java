@@ -13,7 +13,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.stockExchangeAggregator.providers.ProviderFactory;
 import com.stockExchangeAggregator.providers.chart.LineChartData;
 
-public class APIWrapper<T extends POJOInterface, U extends POJORowInterface> {
+public class APIWrapper<T extends POJOInterface, U extends POJORowInterface>
+{
 	private ProviderFactory providerFactory;
 	private Class<T> pojoClass;
 	private Class<U> pojoRow;
@@ -24,7 +25,8 @@ public class APIWrapper<T extends POJOInterface, U extends POJORowInterface> {
 	private List<String> headers = new ArrayList<>();
 
 	@SuppressWarnings("unchecked")
-	public APIWrapper(Class<T> pojoClass, Class<U> pojoRow, String url) {
+	public APIWrapper(Class<T> pojoClass, Class<U> pojoRow, String url)
+	{
 		super();
 
 		this.providerFactory = new ProviderFactory();
@@ -33,80 +35,100 @@ public class APIWrapper<T extends POJOInterface, U extends POJORowInterface> {
 		this.url = url;
 
 		Method method;
-		try {
+		try
+		{
 			method = pojoRow.getMethod("getHeaders");
 			this.headers = (List<String>) method.invoke(null);
-		} catch (NoSuchMethodException | SecurityException e) {
+		} catch (NoSuchMethodException | SecurityException e)
+		{
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
+		} catch (IllegalAccessException e)
+		{
 			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException e)
+		{
 			e.printStackTrace();
-		} catch (InvocationTargetException e) {
+		} catch (InvocationTargetException e)
+		{
 			e.printStackTrace();
 		}
 		if (headers == null)
 			headers = new ArrayList<>();
 	}
 
-	public POJOInterface deserializeJSON(String json) throws JsonParseException, JsonMappingException, IOException {
+	public POJOInterface deserializeJSON(String json) throws JsonParseException, JsonMappingException, IOException
+	{
 		return providerFactory.getDeserializer(pojoClass).deserializeJSON(json, pojoClass);
 	}
 
-	public void drawLineChart(POJOInterface obj, LineChartModel lcm) {
+	public void drawLineChart(POJOInterface obj, LineChartModel lcm)
+	{
 		providerFactory.getChartProvider(pojoClass).drawLineChart(obj, lcm);
 	}
 
-	public LineChartData getLineChartData(POJOInterface obj) {
+	public LineChartData getLineChartData(POJOInterface obj)
+	{
 		return providerFactory.getChartProvider(pojoClass).getLineChartData(obj);
 	}
 
-	public void provideRows(POJOInterface obj, LineChartModel lcm) {
+	public void provideRows(POJOInterface obj, LineChartModel lcm)
+	{
 		rows = providerFactory.getRowProvider(pojoClass).provideRows(obj, lcm);
 	}
 
-	public Class<T> getPojoClass() {
+	public Class<T> getPojoClass()
+	{
 		return pojoClass;
 	}
 
-	public String getUrl() {
+	public String getUrl()
+	{
 		return url;
 	}
 
-	public void setUrl(String url) {
+	public void setUrl(String url)
+	{
 		this.url = url;
 	}
 
-	public POJOInterface getPojo() {
+	public POJOInterface getPojo()
+	{
 		return pojo;
 	}
 
-	public void setPojo(POJOInterface pojo) {
+	public void setPojo(POJOInterface pojo)
+	{
 		this.pojo = pojo;
 	}
 
-	public String getRawString() {
+	public String getRawString()
+	{
 		return rawString;
 	}
 
-	public void setRawString(String rawString) {
+	public void setRawString(String rawString)
+	{
 		this.rawString = rawString;
 	}
 
-	public List<? extends POJORowInterface> getRows() {
+	public List<? extends POJORowInterface> getRows()
+	{
 		return rows;
 	}
 
-	public void setRows(List<? extends POJORowInterface> rows) {
+	public void setRows(List<? extends POJORowInterface> rows)
+	{
 		this.rows = rows;
 	}
 
-	public List<String> getHeaders() {
+	public List<String> getHeaders()
+	{
 		return headers;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		StringBuilder builder = new StringBuilder();
 		builder.append("APIWrapper [pojoClass=");
 		builder.append(pojoClass);
@@ -122,11 +144,13 @@ public class APIWrapper<T extends POJOInterface, U extends POJORowInterface> {
 		return builder.toString();
 	}
 
-	public Class<U> getPojoRow() {
+	public Class<U> getPojoRow()
+	{
 		return pojoRow;
 	}
 
-	public void setPojoRow(Class<U> pojoRow) {
+	public void setPojoRow(Class<U> pojoRow)
+	{
 		this.pojoRow = pojoRow;
 	}
 

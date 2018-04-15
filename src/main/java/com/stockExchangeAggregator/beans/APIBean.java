@@ -21,78 +21,97 @@ import com.stockExchangeAggregator.providers.FeedManager;
 @ManagedBean(name = "apiBean")
 @SessionScoped
 @SuppressWarnings("rawtypes")
-public class APIBean {
+public class APIBean
+{
 	static final Logger LOG = LoggerFactory.getLogger(APIBean.class);
 
 	private FeedManager feedMgr = new FeedManager();
 
 	private APIWrapper currentApiWrapper;
 
-	private Boolean bDoUpdate = false;
+	private Boolean doUpdate = false;
 	private int refreshInterval = 30;
 
-	public APIBean() {
+	public APIBean()
+	{
 		super();
 		refresh();
 	}
 
-	public APIWrapper getApiWrapper() {
+	public APIWrapper getApiWrapper()
+	{
 		return currentApiWrapper = feedMgr.getAlphaApiWrapper();
 	}
 
-	public void refresh() {
+	public void refresh()
+	{
 		getApiWrapper();
-		String res = null;
-		try {
-			res = CurlProvider.getInstance().getURI(currentApiWrapper.getUrl(), HttpMethod.GET, null);
-		} catch (Exception e) {
+		String response = null;
+		try
+		{
+			response = CurlProvider.getInstance().getURI(currentApiWrapper.getUrl(), HttpMethod.GET, null);
+		} catch (Exception e)
+		{
 			e.printStackTrace();
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
 		}
-		// LOG.debug("res="+res);
-		// System.out.println("res="+res);
+		
+		// LOG.debug("response="+response);
+		// System.out.println("response="+response);
 		// System.out.println("refreshInterval="+refreshInterval);
-		if (res != null && !res.equals("")) {
-			currentApiWrapper.setRawString(res);
-			try {
-				POJOInterface obj = currentApiWrapper.deserializeJSON(res);
+		
+		if (response != null && !response.equals(""))
+		{
+			currentApiWrapper.setRawString(response);
+			try
+			{
+				POJOInterface pojo = currentApiWrapper.deserializeJSON(response);
 				currentApiWrapper
-						.setRawString(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(obj));
-				currentApiWrapper.setPojo(obj);
-			} catch (IOException e) {
+						.setRawString(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(pojo));
+				currentApiWrapper.setPojo(pojo);
+			} catch (IOException e)
+			{
 				e.printStackTrace();
 			}
-		} else {
+		} else
+		{
 			currentApiWrapper.setPojo(null);
 		}
 	}
 
-	public String getStrUrl() {
+	public String getStrUrl()
+	{
 		return currentApiWrapper.getUrl();
 	}
 
-	public void setStrUrl(String strUrl) {
+	public void setStrUrl(String strUrl)
+	{
 		this.currentApiWrapper.setUrl(strUrl);
 	}
 
-	public Boolean getbDoUpdate() {
-		return bDoUpdate;
+	public Boolean getDoUpdate()
+	{
+		return doUpdate;
 	}
 
-	public void setbDoUpdate(Boolean bDoUpdate) {
-		this.bDoUpdate = bDoUpdate;
+	public void setDoUpdate(Boolean bDoUpdate)
+	{
+		this.doUpdate = bDoUpdate;
 	}
 
-	public int getRefreshInterval() {
+	public int getRefreshInterval()
+	{
 		return refreshInterval;
 	}
 
-	public void setRefreshInterval(int refreshInterval) {
+	public void setRefreshInterval(int refreshInterval)
+	{
 		this.refreshInterval = refreshInterval;
 	}
 
-	public void onSlideEnd_RefreshInterval(SlideEndEvent event) {
+	public void onSlideEnd_RefreshInterval(SlideEndEvent event)
+	{
 		this.refreshInterval = event.getValue();
 	}
 

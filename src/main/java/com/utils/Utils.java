@@ -18,96 +18,118 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class Utils {
-	public static void print2Json(Object o) {
-		try {
+public class Utils
+{
+	public static void print2Json(Object o)
+	{
+		try
+		{
 			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(o));
-		} catch (JsonProcessingException e) {
+		} catch (JsonProcessingException e)
+		{
 			e.printStackTrace();
 		}
 	}
 
-	public static void print2Xml(Object o) {
+	public static void print2Xml(Object o)
+	{
 		StringWriter sw = new StringWriter();
 		JAXBContext jaxbContext = null;
-		try {
+		try
+		{
 			jaxbContext = JAXBContext.newInstance(o.getClass());
-		} catch (JAXBException e) {
+		} catch (JAXBException e)
+		{
 			e.printStackTrace();
 		}
 		Marshaller jaxbMarshaller;
-		try {
+		try
+		{
 			jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(o, sw);
-		} catch (JAXBException e) {
+		} catch (JAXBException e)
+		{
 			e.printStackTrace();
 		}
 		System.out.println(sw.toString());
 	}
 
 	public static String convertTZ2String(String inputDateTime, TimeZone sourceTZ, TimeZone destTZ,
-			String sourceDateFormat, String destDateFormat) {
+			String sourceDateFormat, String destDateFormat)
+	{
 		SimpleDateFormat sdf = new SimpleDateFormat(sourceDateFormat);
 		SimpleDateFormat formatter = new SimpleDateFormat(destDateFormat);
-		try {
+		try
+		{
 			sdf.setTimeZone(sourceTZ);
 			formatter.setTimeZone(destTZ);
 			return formatter.format(sdf.parse(inputDateTime));
-		} catch (ParseException e) {
+		} catch (ParseException e)
+		{
 			e.printStackTrace();
 		}
 		return null;
 	}
 
 	public static Date convertTZ2Date(String inputDateTime, TimeZone sourceTZ, TimeZone destTZ, String sourceDateFormat,
-			String destDateFormat) {
+			String destDateFormat)
+	{
 		String strDate = convertTZ2String(inputDateTime, sourceTZ, destTZ, sourceDateFormat, destDateFormat);
 		SimpleDateFormat sdfRet = new SimpleDateFormat(destDateFormat);
-		try {
+		try
+		{
 			sdfRet.setTimeZone(destTZ);
 			return sdfRet.parse(strDate);
-		} catch (ParseException e) {
+		} catch (ParseException e)
+		{
 			e.printStackTrace();
 		}
 		return null;
 	}
 
 	public static XMLGregorianCalendar convertTZ2XMLGregorianCalendar(String inputDateTime, TimeZone sourceTZ,
-			TimeZone destTZ, String sourceDateFormat, String destDateFormat) {
+			TimeZone destTZ, String sourceDateFormat, String destDateFormat)
+	{
 		Date myDate = convertTZ2Date(inputDateTime, sourceTZ, destTZ, sourceDateFormat, destDateFormat);
 		GregorianCalendar c = new GregorianCalendar();
 		c.setTimeZone(destTZ);
 		c.setTime(myDate);
 
-		try {
+		try
+		{
 			return DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
-		} catch (DatatypeConfigurationException e) {
+		} catch (DatatypeConfigurationException e)
+		{
 			e.printStackTrace();
 		}
 
 		return null;
 	}
 
-	public static String addStringDate(String inputDate, String sourceDateFormat, int field, int amount) {
+	public static String addStringDate(String inputDate, String sourceDateFormat, int field, int amount)
+	{
 		String ret = "";
 
 		SimpleDateFormat sdfRet = new SimpleDateFormat(sourceDateFormat);
-		try {
+		try
+		{
 			Date myDate = sdfRet.parse(inputDate);
 			Calendar c = Calendar.getInstance();
 			c.setTime(myDate);
 			c.add(field, amount);
 			myDate = c.getTime();
 			ret = sdfRet.format(myDate);
-		} catch (ParseException e) {
+		} catch (ParseException e)
+		{
 			e.printStackTrace();
 		}
 
 		return ret;
 	}
 
-	public static void progressPercentage(int remain, int total) {
+	public static void progressPercentage(int remain, int total)
+	{
 		/*
 		 * if (remain > total) { throw new IllegalArgumentException(); }
 		 */
@@ -118,12 +140,14 @@ public class Utils {
 		String bare = new String(new char[maxBareSize]).replace('\0', defaultChar) + "]";
 		StringBuilder bareDone = new StringBuilder();
 		bareDone.append("[");
-		for (int i = 0; i < remainProcent; i++) {
+		for (int i = 0; i < remainProcent; i++)
+		{
 			bareDone.append(icon);
 		}
 		String bareRemain = bare.substring(remainProcent, bare.length());
 		System.out.print("\r" + bareDone + bareRemain + " " + remainProcent * 10 + "% (" + remain + "/" + total + ")");
-		if (remain >= total) {
+		if (remain >= total)
+		{
 			System.out.print("\n");
 		}
 	}

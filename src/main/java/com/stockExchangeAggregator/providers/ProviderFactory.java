@@ -17,13 +17,15 @@ import com.stockExchangeAggregator.providers.serializer.DeserializerInterface;
 import com.stockExchangeAggregator.providers.serializer.alpha.AlphaDeserializer;
 import com.stockExchangeAggregator.providers.serializer.yahoo.YahooDeserializer;
 
-public class ProviderFactory {
+public class ProviderFactory
+{
 	private static Map<Class<? extends POJOInterface>, DeserializerInterface> deserializers = new HashMap<>();
 
 	private static Map<Class<? extends POJOInterface>, ChartProviderInterface<? extends POJOInterface>> chartProviders = new HashMap<>();
 	private static Map<Class<? extends POJOInterface>, RowProviderInterface<? extends POJORowInterface>> rowProviders = new HashMap<>();
 
-	static {
+	static
+	{
 		deserializers.put(Yahoo.class, new YahooDeserializer());
 		deserializers.put(Alpha.class, new AlphaDeserializer());
 
@@ -34,19 +36,23 @@ public class ProviderFactory {
 		rowProviders.put(Alpha.class, new AlphaRowProvider());
 	}
 
-	public ProviderFactory() {
+	public ProviderFactory()
+	{
 		super();
 	}
 
-	public DeserializerInterface getDeserializer(Class<? extends POJOInterface> clazz) {
+	public DeserializerInterface getDeserializer(Class<? extends POJOInterface> clazz)
+	{
 		return deserializers.get(clazz);
 	}
 
-	public ChartProviderInterface<? extends POJOInterface> getChartProvider(Class<? extends POJOInterface> clazz) {
+	public ChartProviderInterface<? extends POJOInterface> getChartProvider(Class<? extends POJOInterface> clazz)
+	{
 		return chartProviders.get(clazz);
 	}
 
-	public RowProviderInterface<? extends POJORowInterface> getRowProvider(Class<? extends POJOInterface> clazz) {
+	public RowProviderInterface<? extends POJORowInterface> getRowProvider(Class<? extends POJOInterface> clazz)
+	{
 		return rowProviders.get(clazz);
 	}
 }

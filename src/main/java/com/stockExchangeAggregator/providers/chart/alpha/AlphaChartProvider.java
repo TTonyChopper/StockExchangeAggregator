@@ -17,15 +17,16 @@ import com.stockExchangeAggregator.model.alpha.Alpha;
 import com.stockExchangeAggregator.providers.chart.ChartProviderInterface;
 import com.stockExchangeAggregator.providers.chart.LineChartData;
 
-public class AlphaChartProvider implements ChartProviderInterface<Alpha> {
+public class AlphaChartProvider implements ChartProviderInterface<Alpha>
+{
 	@Override
-	public void drawLineChart(POJOInterface model, LineChartModel lcm) {
+	public void drawLineChart(POJOInterface model, LineChartModel lcm)
+	{
 		Alpha alpha = (Alpha) model;
-		
-		List<String> listTs = alpha.getTimeSeries().stream().map(serie -> serie.getName())
+
+		List<String> listTs = alpha.getTimeSeries().stream().map(serie -> serie.getName()).collect(Collectors.toList());
+		List<Double> listOpen = alpha.getTimeSeries().stream().map(serie -> serie.get1Open()).map(Double::valueOf)
 				.collect(Collectors.toList());
-		List<Double> listOpen = alpha.getTimeSeries().stream().map(serie -> serie.get1Open())
-				.map(Double::valueOf).collect(Collectors.toList());
 		List<String> listClose = alpha.getTimeSeries().stream().map(serie -> serie.get4Close())
 				.collect(Collectors.toList());
 
@@ -33,7 +34,8 @@ public class AlphaChartProvider implements ChartProviderInterface<Alpha> {
 		myLine.setFill(true);
 		myLine.setLabel("Close");
 
-		IntStream.range(0, listTs.size()).boxed().forEachOrdered(i -> {
+		IntStream.range(0, listTs.size()).boxed().forEachOrdered(i ->
+		{
 			Double val = Double.parseDouble(listClose.get(i));
 			myLine.set(listTs.get(i), val);
 		});
@@ -42,7 +44,7 @@ public class AlphaChartProvider implements ChartProviderInterface<Alpha> {
 		lcm.setZoom(true);
 		DateAxis axisX = new DateAxis("Dates");
 		axisX.setTickAngle(-50);
-		axisX.setMax(listTs.get(listTs.size() -1 ));
+		axisX.setMax(listTs.get(listTs.size() - 1));
 		axisX.setTickFormat("%b %#d, %y %H:%#M:%S");
 		// axis.getTickInterval();
 		axisX.setMin(listTs.get(0));
@@ -51,19 +53,22 @@ public class AlphaChartProvider implements ChartProviderInterface<Alpha> {
 
 		lcm.getAxes().put(AxisType.X, axisX);
 
-		try {
+		try
+		{
 			Axis axisY = new LinearAxis("");
 			axisY.setMin(Collections.min(listOpen));
 			axisY.setMax(Collections.max(listOpen));
 
 			lcm.getAxes().put(AxisType.Y, axisY);
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public LineChartData getLineChartData(POJOInterface model) {
+	public LineChartData getLineChartData(POJOInterface model)
+	{
 		LineChartData lineChartData = new LineChartData();
 
 		Alpha alpha = (Alpha) model;

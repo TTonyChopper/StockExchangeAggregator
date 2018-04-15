@@ -9,13 +9,17 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.stockExchangeAggregator.model.acme.POJOInterface;
 import com.stockExchangeAggregator.providers.serializer.DeserializerInterface;
 
-public class YahooDeserializer implements DeserializerInterface{
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+public class YahooDeserializer implements DeserializerInterface
+{
+
+	@SuppressWarnings(
+	{ "rawtypes", "unchecked" })
 	@Override
-	public POJOInterface deserializeJSON(String json, Class pojoClass) throws JsonParseException, JsonMappingException, IOException {
+	public POJOInterface deserializeJSON(String json, Class pojoClass)
+			throws JsonParseException, JsonMappingException, IOException
+	{
 		ObjectMapper mapper = new ObjectMapper();
-	    mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 		return (POJOInterface) mapper.readValue(json, pojoClass);
 	}
 

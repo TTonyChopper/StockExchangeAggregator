@@ -12,8 +12,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "timezone", "end", "start", "gmtoffset" })
-public class Pre {
+@JsonPropertyOrder(
+{ "timezone", "end", "start", "gmtoffset" })
+public class Pre
+{
 
 	@JsonProperty("timezone")
 	private String timezone;
@@ -27,82 +29,98 @@ public class Pre {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 	@JsonProperty("timezone")
-	public String getTimezone() {
+	public String getTimezone()
+	{
 		return timezone;
 	}
 
 	@JsonProperty("timezone")
-	public void setTimezone(String timezone) {
+	public void setTimezone(String timezone)
+	{
 		this.timezone = timezone;
 	}
 
-	public Pre withTimezone(String timezone) {
+	public Pre withTimezone(String timezone)
+	{
 		this.timezone = timezone;
 		return this;
 	}
 
 	@JsonProperty("end")
-	public Long getEnd() {
+	public Long getEnd()
+	{
 		return end;
 	}
 
 	@JsonProperty("end")
-	public void setEnd(Long end) {
+	public void setEnd(Long end)
+	{
 		this.end = end;
 	}
 
-	public Pre withEnd(Long end) {
+	public Pre withEnd(Long end)
+	{
 		this.end = end;
 		return this;
 	}
 
 	@JsonProperty("start")
-	public Long getStart() {
+	public Long getStart()
+	{
 		return start;
 	}
 
 	@JsonProperty("start")
-	public void setStart(Long start) {
+	public void setStart(Long start)
+	{
 		this.start = start;
 	}
 
-	public Pre withStart(Long start) {
+	public Pre withStart(Long start)
+	{
 		this.start = start;
 		return this;
 	}
 
 	@JsonProperty("gmtoffset")
-	public Long getGmtoffset() {
+	public Long getGmtoffset()
+	{
 		return gmtoffset;
 	}
 
 	@JsonProperty("gmtoffset")
-	public void setGmtoffset(Long gmtoffset) {
+	public void setGmtoffset(Long gmtoffset)
+	{
 		this.gmtoffset = gmtoffset;
 	}
 
-	public Pre withGmtoffset(Long gmtoffset) {
+	public Pre withGmtoffset(Long gmtoffset)
+	{
 		this.gmtoffset = gmtoffset;
 		return this;
 	}
 
 	@JsonAnyGetter
-	public Map<String, Object> getAdditionalProperties() {
+	public Map<String, Object> getAdditionalProperties()
+	{
 		return this.additionalProperties;
 	}
 
 	@JsonAnySetter
-	public void setAdditionalProperty(String name, Object value) {
+	public void setAdditionalProperty(String name, Object value)
+	{
 		this.additionalProperties.put(name, value);
 	}
 
-	public Pre withAdditionalProperty(String name, Object value) {
+	public Pre withAdditionalProperty(String name, Object value)
+	{
 		this.additionalProperties.put(name, value);
 		return this;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return new ToStringBuilder(this).append("timezone", timezone).append("end", end).append("start", start)
 				.append("gmtoffset", gmtoffset).append("additionalProperties", additionalProperties).toString();
 	}

@@ -32,13 +32,14 @@ public class YahooChartProvider implements ChartProviderInterface<Yahoo>
 		Quote q = r.getIndicators().getQuote().get(0);
 		List<Long> listOpen = q.getOpen();
 		List<Double> listClose = q.getClose();
-		
+
 		LineChartSeries myLine = new LineChartSeries();
 		myLine.setFill(true);
 		myLine.setLabel("Close");
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-		IntStream.range(0, listTs.size()).boxed().forEachOrdered(i -> {
+		IntStream.range(0, listTs.size()).boxed().forEachOrdered(i ->
+		{
 			String vTs = sdf.format(new Date(listTs.get(i) * 1000));
 			Double val = listClose.get(i);
 			myLine.set(vTs, val);
@@ -57,33 +58,37 @@ public class YahooChartProvider implements ChartProviderInterface<Yahoo>
 
 		lcm.getAxes().put(AxisType.X, axisX);
 
-		try {
+		try
+		{
 			Axis axisY = new LinearAxis("");
 			axisY.setMin(Collections.min(listOpen));
 			axisY.setMax(Collections.max(listOpen));
 
 			lcm.getAxes().put(AxisType.Y, axisY);
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public LineChartData getLineChartData(POJOInterface model)
 	{
 		LineChartData lineChartData = new LineChartData();
-		
-		List<Result> myList=new ArrayList<Result>();
-		try {
-			myList=((Yahoo) model).getChart().getResult();
-		}catch(Exception e){
+
+		List<Result> myList = new ArrayList<Result>();
+		try
+		{
+			myList = ((Yahoo) model).getChart().getResult();
+		} catch (Exception e)
+		{
 			return lineChartData;
-		}		
-		
+		}
+
 		Result r = myList.get(0);
-		
+
 		lineChartData.ySetLabel = r.getMeta().getSymbol();
-		
+
 		List<Long> listTs = r.getTimestamp();
 		lineChartData.xLabels = listTs.stream().map(String::valueOf).collect(Collectors.toList());
 
@@ -92,7 +97,7 @@ public class YahooChartProvider implements ChartProviderInterface<Yahoo>
 		lineChartData.ySet = listClose.stream().map(String::valueOf).collect(Collectors.toList());
 
 		lineChartData.xSet = Collections.emptyList();
-		
+
 		return lineChartData;
 	}
 }

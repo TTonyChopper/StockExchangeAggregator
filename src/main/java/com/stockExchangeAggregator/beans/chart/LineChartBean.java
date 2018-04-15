@@ -13,10 +13,12 @@ import com.stockExchangeAggregator.providers.chart.LineChartData;
 
 @ManagedBean(name = "lineChartBean")
 @SessionScoped
-public class LineChartBean {
+public class LineChartBean
+{
 	private APIBean apiBean;
 
-	public LineChartBean() {
+	public LineChartBean()
+	{
 		super();
 
 		FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -25,17 +27,19 @@ public class LineChartBean {
 				.createValueExpression(facesContext.getELContext(), "#{apiBean}", APIBean.class)
 				.getValue(facesContext.getELContext());
 	}
-	
-	private LineChartData getLineChartData() {
+
+	private LineChartData getLineChartData()
+	{
 		return apiBean.getApiWrapper().getLineChartData(apiBean.getApiWrapper().getPojo());
 	}
-	
-	public void retrieveLineChartData() {
+
+	public void retrieveLineChartData()
+	{
 		LineChartData lineChartData = getLineChartData();
-	    Ajax ajax = PrimeFaces.current().ajax();
-	    ajax.addCallbackParam("ysetlabel", new Gson().toJson(lineChartData.ySetLabel));
-	    ajax.addCallbackParam("xlabels", new Gson().toJson(lineChartData.xLabels));
-	    ajax.addCallbackParam("yset", new Gson().toJson(lineChartData.ySet));
-	    ajax.addCallbackParam("xset", new Gson().toJson(lineChartData.xSet));
+		Ajax ajax = PrimeFaces.current().ajax();
+		ajax.addCallbackParam("ysetlabel", new Gson().toJson(lineChartData.ySetLabel));
+		ajax.addCallbackParam("xlabels", new Gson().toJson(lineChartData.xLabels));
+		ajax.addCallbackParam("yset", new Gson().toJson(lineChartData.ySet));
+		ajax.addCallbackParam("xset", new Gson().toJson(lineChartData.xSet));
 	}
 }

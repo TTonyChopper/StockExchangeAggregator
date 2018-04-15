@@ -10,8 +10,10 @@ import com.stockExchangeAggregator.model.acme.POJOInterface;
 import com.stockExchangeAggregator.model.yahoo.Chart;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "Meta Data", "Time Serie" })
-public class Alpha implements POJOInterface {
+@JsonPropertyOrder(
+{ "Meta Data", "Time Serie" })
+public class Alpha implements POJOInterface
+{
 
 	private MetaData metaData;
 	private String timeSeriesKey;
@@ -19,40 +21,49 @@ public class Alpha implements POJOInterface {
 
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-	public MetaData getMetaData() {
+	public MetaData getMetaData()
+	{
 		return metaData;
 	}
 
-	public void setMetaData(MetaData metaData) {
+	public void setMetaData(MetaData metaData)
+	{
 		this.metaData = metaData;
 	}
-	
-	public String getTimeSeriesKey() {
+
+	public String getTimeSeriesKey()
+	{
 		return timeSeriesKey;
 	}
 
-	public void setTimeSeriesKey(String timeSeriesKey) {
+	public void setTimeSeriesKey(String timeSeriesKey)
+	{
 		this.timeSeriesKey = timeSeriesKey;
 	}
 
-	public List<TimeSerie> getTimeSeries() {
+	public List<TimeSerie> getTimeSeries()
+	{
 		return timeSeries;
 	}
 
-	public void addTimeSerie(TimeSerie timeSerie) {
+	public void addTimeSerie(TimeSerie timeSerie)
+	{
 		timeSeries.add(timeSerie);
 	}
 
-	public Map<String, Object> getAdditionalProperties() {
+	public Map<String, Object> getAdditionalProperties()
+	{
 		return this.additionalProperties;
 	}
 
-	public void setAdditionalProperty(String name, Object value) {
+	public void setAdditionalProperty(String name, Object value)
+	{
 		this.additionalProperties.put(name, value);
 	}
 
 	@Override
-	public Chart getChart() {
+	public Chart getChart()
+	{
 		return null;
 	}
 
