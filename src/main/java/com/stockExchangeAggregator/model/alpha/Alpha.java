@@ -7,7 +7,6 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.stockExchangeAggregator.model.acme.POJOInterface;
-import com.stockExchangeAggregator.model.yahoo.Chart;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder(

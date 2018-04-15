@@ -4,11 +4,11 @@ import java.io.IOException;
 
 import org.apache.http.client.HttpResponseException;
 import org.junit.Test;
-import com.enums.HttpMethod;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.stockExchangeAggregator.model.yahoo.Yahoo;
 import com.stockExchangeAggregator.providers.CurlProvider;
+import com.stockExchangeAggregator.providers.CurlProvider.HttpMethod;
 
 public class YahooApiTest {
 
@@ -20,10 +20,8 @@ public class YahooApiTest {
 		try {
 			res = CurlProvider.getInstance().getURI(strUrl, HttpMethod.GET, null);
 		} catch (HttpResponseException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -35,7 +33,6 @@ public class YahooApiTest {
 				yahoo = mapper.readValue(res, Yahoo.class);
 				System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(yahoo));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			// System.out.println(yahoo.getChart().toString());

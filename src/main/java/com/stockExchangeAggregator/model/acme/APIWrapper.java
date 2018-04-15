@@ -71,9 +71,9 @@ public class APIWrapper<T extends POJOInterface, U extends POJORowInterface>
 		return providerFactory.getChartProvider(pojoClass).getLineChartData(obj);
 	}
 
-	public void provideRows(POJOInterface obj, LineChartModel lcm)
+	public void provideRows(POJOInterface obj)
 	{
-		rows = providerFactory.getRowProvider(pojoClass).provideRows(obj, lcm);
+		rows = providerFactory.getRowProvider(pojoClass).provideRows(obj);
 	}
 
 	public Class<T> getPojoClass()

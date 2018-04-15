@@ -23,7 +23,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.ssl.SSLContexts;
-import com.enums.HttpMethod;
 
 public class CurlProvider
 {
@@ -136,5 +135,8 @@ public class CurlProvider
 		 */
 		return responseString;
 	}
-
+	
+	public enum HttpMethod {
+		GET, POST
+	}
 }

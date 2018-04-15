@@ -9,5 +9,5 @@ import com.stockExchangeAggregator.model.acme.POJORowInterface;
 
 public interface RowProviderInterface<T extends POJORowInterface>
 {
-	List<T> provideRows(POJOInterface model, LineChartModel lcm);
+	List<T> provideRows(POJOInterface model);
 }

@@ -11,11 +11,11 @@ import org.primefaces.event.SlideEndEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.enums.HttpMethod;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stockExchangeAggregator.model.acme.APIWrapper;
 import com.stockExchangeAggregator.model.acme.POJOInterface;
 import com.stockExchangeAggregator.providers.CurlProvider;
+import com.stockExchangeAggregator.providers.CurlProvider.HttpMethod;
 import com.stockExchangeAggregator.providers.FeedManager;
 
 @ManagedBean(name = "apiBean")
@@ -70,6 +70,7 @@ public class APIBean
 				currentApiWrapper
 						.setRawString(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(pojo));
 				currentApiWrapper.setPojo(pojo);
+				currentApiWrapper.provideRows(pojo);
 			} catch (IOException e)
 			{
 				e.printStackTrace();

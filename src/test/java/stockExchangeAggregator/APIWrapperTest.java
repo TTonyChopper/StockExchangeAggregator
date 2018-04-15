@@ -4,13 +4,13 @@ import java.io.IOException;
 
 import org.apache.http.client.HttpResponseException;
 import org.junit.Test;
-import com.enums.HttpMethod;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.stockExchangeAggregator.model.acme.APIWrapper;
 import com.stockExchangeAggregator.model.wrapper.YahooRow;
 import com.stockExchangeAggregator.model.yahoo.Yahoo;
 import com.stockExchangeAggregator.providers.CurlProvider;
+import com.stockExchangeAggregator.providers.CurlProvider.HttpMethod;
 
 public class APIWrapperTest {
 

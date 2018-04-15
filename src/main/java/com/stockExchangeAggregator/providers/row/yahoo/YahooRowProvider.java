@@ -15,7 +15,7 @@ import com.stockExchangeAggregator.providers.row.RowProviderInterface;
 
 public class YahooRowProvider implements RowProviderInterface<YahooRow>
 {
-	public List<YahooRow> provideRows(POJOInterface model, LineChartModel lcm)
+	public List<YahooRow> provideRows(POJOInterface model)
 	{
 		Result r = ((Yahoo) model).getChart().getResult().get(0);
 		List<Long> listTs = r.getTimestamp();

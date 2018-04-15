@@ -14,7 +14,7 @@ import com.stockExchangeAggregator.providers.row.RowProviderInterface;
 
 public class AlphaRowProvider implements RowProviderInterface<AlphaRow>
 {
-	public List<AlphaRow> provideRows(POJOInterface model, LineChartModel lcm)
+	public List<AlphaRow> provideRows(POJOInterface model)
 	{
 
 		Alpha alpha = (Alpha) model;

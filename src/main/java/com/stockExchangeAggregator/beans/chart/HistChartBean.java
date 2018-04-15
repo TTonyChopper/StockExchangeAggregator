@@ -49,7 +49,6 @@ public class HistChartBean
 			}
 
 			apiWrapper.drawLineChart(pojo, lineChartModel);
-			apiWrapper.provideRows(pojo, lineChartModel);
 		}
 
 		return lineChartModel;
