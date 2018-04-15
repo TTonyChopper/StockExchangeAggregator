@@ -14,6 +14,4 @@ public class YahooSymbol extends Symbol
 	{
 		return value;
 	}
-	
-	
 }

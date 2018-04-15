@@ -95,9 +95,9 @@ public class APIBean
 		return doUpdate;
 	}
 
-	public void setDoUpdate(Boolean bDoUpdate)
+	public void setDoUpdate(Boolean doUpdate)
 	{
-		this.doUpdate = bDoUpdate;
+		this.doUpdate = doUpdate;
 	}
 
 	public int getRefreshInterval()
