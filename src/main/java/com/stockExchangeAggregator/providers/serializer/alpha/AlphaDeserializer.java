@@ -73,7 +73,7 @@ public class AlphaDeserializer extends JsonDeserializer<Alpha> implements Deseri
 			alpha.setMetaData((MetaData) mapper.readValue(node.traverse(), MetaData.class));
 			break;
 		default:
-			if (key.startsWith("Time Series"))
+			if (key.contains("Time Series"))
 			{
 				deserializeTimeSeries(alpha, key, node);
 			}

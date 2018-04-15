@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import org.primefaces.model.chart.LineChartModel;
 import com.stockExchangeAggregator.model.acme.POJOInterface;
 import com.stockExchangeAggregator.model.wrapper.YahooRow;
 import com.stockExchangeAggregator.model.yahoo.Quote;

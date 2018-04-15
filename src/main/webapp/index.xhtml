@@ -30,25 +30,34 @@
 			</h:form>
 		</p:layoutUnit>
 
-		<p:layoutUnit position="east" size="40%" header="Right"
+		<p:layoutUnit position="east" size="40%"
 			style="height:100%;" resizable="true" closable="false"
 			collapsible="true" effect="drop">
-			<h:panelGroup layout="block" id="rawString">
-				<pre>#{apiBean.apiWrapper.rawString}</pre>
-			</h:panelGroup>
+
+			<p:tabView dynamic="false" cache="false">
+				<p:tab title="Query">
+					<p:growl id="growl" showDetail="true" />
+					<h:panelGrid columns="1" style="margin-bottom: 10px">
+						<h:outputText id="range" value="#{queryBean.function}" />
+                        <h:inputHidden id="rangetxt" value="#{sliderView.rangeIndex}" />
+						<p:slider for="rangetxt" step="1" maxValue="8">
+							<p:ajax event="slideEnd" listener="#{queryBean.onSlideEnd}"
+								update="range growl" />
+						</p:slider>
+					</h:panelGrid>
+
+				</p:tab>
+				<p:tab title="Response">
+					<h:panelGroup layout="block" id="rawString">
+						<pre>#{apiBean.apiWrapper.rawString}</pre>
+					</h:panelGroup>
+				</p:tab>
+			</p:tabView>
 		</p:layoutUnit>
 
 		<p:layoutUnit position="center">
 
 			<h:form>
-				<p:growl id="growl" showDetail="true" sticky="false" />
-				<p:inputTextarea value="#{apiBean.strUrl}" style="width:100%;"
-					rows="2">
-					<p:ajax
-						update=":#{p:component('graph')} :#{p:component('rawString')} :#{p:component('growl')}"
-						listener="#{apiBean.refresh}" />
-				</p:inputTextarea>
-
 				<p:poll interval="#{apiBean.refreshInterval}"
 					listener="#{apiBean.refresh}" update="graph rawString growl"
 					rendered="#{apiBean.doUpdate}" />

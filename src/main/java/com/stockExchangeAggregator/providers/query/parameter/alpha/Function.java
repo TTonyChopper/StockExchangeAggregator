@@ -1,9 +1,14 @@
 package com.stockExchangeAggregator.providers.query.parameter.alpha;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.stockExchangeAggregator.providers.query.parameter.QueryParameter;
 
 public class Function extends QueryParameter
 {
+	public final static List<Function> functions = new ArrayList<>();
+	
 	public final static Function TIME_SERIES_INTRADAY = new Function("TIME_SERIES_INTRADAY");
 	public final static Function TIME_SERIES_DAILY = new Function("TIME_SERIES_DAILY");
 	public final static Function TIME_SERIES_DAILY_ADJUSTED = new Function("TIME_SERIES_DAILY_ADJUSTED");
@@ -16,6 +21,7 @@ public class Function extends QueryParameter
 	public Function(String value)
 	{
 		super("function", value);
+		functions.add(this);
 	}
 
 	@Override

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.primefaces.model.chart.LineChartModel;
 import com.stockExchangeAggregator.model.acme.POJOInterface;
 import com.stockExchangeAggregator.model.alpha.Alpha;
 import com.stockExchangeAggregator.model.wrapper.AlphaRow;

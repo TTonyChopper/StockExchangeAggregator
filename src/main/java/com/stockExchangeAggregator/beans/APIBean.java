@@ -17,6 +17,7 @@ import com.stockExchangeAggregator.model.acme.POJOInterface;
 import com.stockExchangeAggregator.providers.CurlProvider;
 import com.stockExchangeAggregator.providers.CurlProvider.HttpMethod;
 import com.stockExchangeAggregator.providers.FeedManager;
+import com.stockExchangeAggregator.providers.query.parameter.QueryParameter;
 
 @ManagedBean(name = "apiBean")
 @SessionScoped
@@ -41,6 +42,11 @@ public class APIBean
 	public APIWrapper getApiWrapper()
 	{
 		return currentApiWrapper = feedMgr.getAlphaApiWrapper();
+	}
+	
+	public void updateParam(QueryParameter param)
+	{
+		currentApiWrapper.setUrl(feedMgr.updateParam(param));
 	}
 
 	public void refresh()
