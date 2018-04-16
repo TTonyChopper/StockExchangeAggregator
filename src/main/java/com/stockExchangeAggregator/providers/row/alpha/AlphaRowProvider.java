@@ -27,15 +27,15 @@ public class AlphaRowProvider implements RowProviderInterface<AlphaRow>
 			}
 			return name;
 		}).collect(Collectors.toList());
-		List<Double> listOpen = alpha.getTimeSeries().stream().map(serie -> serie.get1Open()).map(Double::valueOf)
+		List<Double> listOpen = alpha.getTimeSeries().stream().map(serie -> serie.getOpen()).map(Double::valueOf)
 				.collect(Collectors.toList());
-		List<Double> listClose = alpha.getTimeSeries().stream().map(serie -> serie.get4Close()).map(Double::valueOf)
+		List<Double> listClose = alpha.getTimeSeries().stream().map(serie -> serie.getClose()).map(Double::valueOf)
 				.collect(Collectors.toList());
-		List<Double> listLow = alpha.getTimeSeries().stream().map(serie -> serie.get3Low()).map(Double::valueOf)
+		List<Double> listLow = alpha.getTimeSeries().stream().map(serie -> serie.getLow()).map(Double::valueOf)
 				.collect(Collectors.toList());
-		List<Double> listHigh = alpha.getTimeSeries().stream().map(serie -> serie.get2High()).map(Double::valueOf)
+		List<Double> listHigh = alpha.getTimeSeries().stream().map(serie -> serie.getHigh()).map(Double::valueOf)
 				.collect(Collectors.toList());
-		List<Long> listVolume = alpha.getTimeSeries().stream().map(serie -> serie.get5Volume()).map(Long::valueOf)
+		List<Long> listVolume = alpha.getTimeSeries().stream().map(serie -> serie.getVolume()).map(Long::valueOf)
 				.collect(Collectors.toList());
 
 		// TODO Rework Null case

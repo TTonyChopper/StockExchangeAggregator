@@ -25,9 +25,9 @@ public class AlphaChartProvider implements ChartProviderInterface<Alpha>
 		Alpha alpha = (Alpha) model;
 
 		List<String> listTs = alpha.getTimeSeries().stream().map(serie -> serie.getName()).collect(Collectors.toList());
-		List<Double> listOpen = alpha.getTimeSeries().stream().map(serie -> serie.get1Open()).map(Double::valueOf)
+		List<Double> listOpen = alpha.getTimeSeries().stream().map(serie -> serie.getOpen()).map(Double::valueOf)
 				.collect(Collectors.toList());
-		List<String> listClose = alpha.getTimeSeries().stream().map(serie -> serie.get4Close())
+		List<String> listClose = alpha.getTimeSeries().stream().map(serie -> serie.getClose())
 				.collect(Collectors.toList());
 
 		LineChartSeries myLine = new LineChartSeries();
@@ -73,9 +73,14 @@ public class AlphaChartProvider implements ChartProviderInterface<Alpha>
 
 		Alpha alpha = (Alpha) model;
 
+		if (alpha.getMetaData() == null)
+		{
+			return lineChartData;
+		}
+		
 		lineChartData.ySetLabel = alpha.getMetaData().get2Symbol();
 
-		lineChartData.ySet = alpha.getTimeSeries().stream().map(serie -> serie.get4Close())
+		lineChartData.ySet = alpha.getTimeSeries().stream().map(serie -> serie.getClose())
 				.collect(Collectors.toList());
 
 		lineChartData.xLabels = alpha.getTimeSeries().stream().map(serie -> serie.getName())

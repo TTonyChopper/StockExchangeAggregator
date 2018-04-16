@@ -18,6 +18,10 @@ import com.stockExchangeAggregator.model.acme.POJOInterface;
 import com.stockExchangeAggregator.model.alpha.Alpha;
 import com.stockExchangeAggregator.model.alpha.MetaData;
 import com.stockExchangeAggregator.model.alpha.TimeSerie;
+import com.stockExchangeAggregator.model.alpha.TimeSerieAdjusted;
+import com.stockExchangeAggregator.model.alpha.TimeSerieDailyAdjusted;
+import com.stockExchangeAggregator.model.alpha.TimeSerieIntraday;
+import com.stockExchangeAggregator.model.alpha.TimeSerieRegular;
 import com.stockExchangeAggregator.providers.serializer.DeserializerInterface;
 
 public class AlphaDeserializer extends JsonDeserializer<Alpha> implements DeserializerInterface
@@ -37,17 +41,17 @@ public class AlphaDeserializer extends JsonDeserializer<Alpha> implements Deseri
 		return (POJOInterface) mapper.readValue(json, pojoClass);
 	}
 
-	private void deserializeTimeSerie(Alpha alpha, String key, JsonNode node)
+	private void deserializeTimeSerie(Alpha alpha, String key, JsonNode node, Class<? extends TimeSerie> clazz)
 			throws JsonParseException, JsonMappingException, IOException
 	{
 		ObjectMapper mapper = new ObjectMapper();
-		TimeSerie serie = (TimeSerie) mapper.readValue(node.traverse(), TimeSerie.class);
+		TimeSerie serie = (TimeSerie) mapper.readValue(node.traverse(), clazz);
 		serie.setName(key);
 
 		alpha.addTimeSerie(serie);
 	}
 
-	private void deserializeTimeSeries(Alpha alpha, String key, JsonNode node)
+	private void deserializeTimeSeries(Alpha alpha, String key, JsonNode node, Class<? extends TimeSerie> clazz)
 			throws JsonParseException, JsonMappingException, IOException
 	{
 		alpha.setTimeSeriesKey(key);
@@ -56,7 +60,7 @@ public class AlphaDeserializer extends JsonDeserializer<Alpha> implements Deseri
 		while (it.hasNext())
 		{
 			Entry<String, JsonNode> entry = it.next();
-			deserializeTimeSerie(alpha, entry.getKey(), entry.getValue());
+			deserializeTimeSerie(alpha, entry.getKey(), entry.getValue(), clazz);
 		}
 
 		// reverse order
@@ -66,18 +70,39 @@ public class AlphaDeserializer extends JsonDeserializer<Alpha> implements Deseri
 	private void deserializeAlphaChild(Alpha alpha, String key, JsonNode node)
 			throws JsonParseException, JsonMappingException, IOException
 	{
+		ObjectMapper mapper = new ObjectMapper();
 		switch (key)
 		{
-		case "Meta Data":
-			ObjectMapper mapper = new ObjectMapper();
-			alpha.setMetaData((MetaData) mapper.readValue(node.traverse(), MetaData.class));
-			break;
-		default:
-			if (key.contains("Time Series"))
-			{
-				deserializeTimeSeries(alpha, key, node);
-			}
-			break;
+			case "Meta Data":
+				alpha.setMetaData((MetaData) mapper.readValue(node.traverse(), MetaData.class));
+				break;
+			case "Weekly Time Series":
+			case "Monthly Time Series":
+				deserializeTimeSeries(alpha, key, node, TimeSerieRegular.class);
+				break;
+			case "Weekly Adjusted Time Series":
+			case "Monthly Adjusted Time Series":
+				deserializeTimeSeries(alpha, key, node, TimeSerieAdjusted.class);
+				break;
+			case "Time Series (Daily)":
+				if (alpha.getMetaData() != null)
+				{
+					if (key.contains("Intraday")) {
+						deserializeTimeSeries(alpha, key, node, TimeSerieIntraday.class);
+					}
+					else if ("Daily Time Series with Splits and Dividend Events".equals(key))
+					{
+						deserializeTimeSeries(alpha, key, node, TimeSerieDailyAdjusted.class);
+					}
+				}
+				break;
+			default:
+				if (key.contains("Time Series"))
+				{
+					//Daily
+					deserializeTimeSeries(alpha, key, node, TimeSerieRegular.class);
+				}
+				break;
 		}
 	}
 
