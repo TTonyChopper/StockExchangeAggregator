@@ -65,6 +65,7 @@ public class QueryBean
         function = Function.functions.get(functionIndex).getParam();
         
         apiBean.updateParam(currentFunction);
-        apiBean.refresh();
+        //Alpha Vantage cannot handle so many request for the moment
+        //apiBean.refresh();
     } 
 }

@@ -87,10 +87,11 @@ public class AlphaDeserializer extends JsonDeserializer<Alpha> implements Deseri
 			case "Time Series (Daily)":
 				if (alpha.getMetaData() != null)
 				{
-					if (key.contains("Intraday")) {
-						deserializeTimeSeries(alpha, key, node, TimeSerieIntraday.class);
+					String info = alpha.getMetaData().get1Information();
+					if ("Daily Prices (open, high, low, close) and Volumes".equals(info)) {
+						deserializeTimeSeries(alpha, key, node, TimeSerieRegular.class);
 					}
-					else if ("Daily Time Series with Splits and Dividend Events".equals(key))
+					else if ("Daily Time Series with Splits and Dividend Events".equals(info))
 					{
 						deserializeTimeSeries(alpha, key, node, TimeSerieDailyAdjusted.class);
 					}
@@ -99,8 +100,8 @@ public class AlphaDeserializer extends JsonDeserializer<Alpha> implements Deseri
 			default:
 				if (key.contains("Time Series"))
 				{
-					//Daily
-					deserializeTimeSeries(alpha, key, node, TimeSerieRegular.class);
+					//Intraday
+					deserializeTimeSeries(alpha, key, node, TimeSerieIntraday.class);
 				}
 				break;
 		}
