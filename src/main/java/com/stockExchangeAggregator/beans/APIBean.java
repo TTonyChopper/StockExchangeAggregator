@@ -30,7 +30,7 @@ public class APIBean
 
 	private APIWrapper currentApiWrapper;
 
-	private Boolean doUpdate = false;
+	private Boolean booleanUpdate = false;
 	private int refreshInterval = 30;
 
 	public APIBean()
@@ -47,6 +47,14 @@ public class APIBean
 	public void updateParam(QueryParameter param)
 	{
 		currentApiWrapper.setUrl(feedMgr.updateParam(param));
+	}
+	
+	public void refreshIfPoll()
+	{
+		if (booleanUpdate)
+		{
+			refresh();
+		}
 	}
 
 	public void refresh()
@@ -97,14 +105,14 @@ public class APIBean
 		this.currentApiWrapper.setUrl(strUrl);
 	}
 
-	public Boolean getDoUpdate()
+	public Boolean getBooleanUpdate()
 	{
-		return doUpdate;
+		return booleanUpdate;
 	}
 
-	public void setDoUpdate(Boolean doUpdate)
+	public void setBooleanUpdate(Boolean booleanUpdate)
 	{
-		this.doUpdate = doUpdate;
+		this.booleanUpdate = booleanUpdate;
 	}
 
 	public int getRefreshInterval()

@@ -15,7 +15,7 @@ public class QueryBean
 	private final APIBean apiBean;
 	
 	private int functionIndex;
-	private int functionsSize = 8;
+	private int functionsSizeIndexed = Function.functions.size() - 1;
 	private String function = Function.TIME_SERIES_DAILY.getParam();
 	
 	public QueryBean()
@@ -39,14 +39,14 @@ public class QueryBean
 		this.functionIndex = functionIndex;
 	}
 
-	public int getFunctionsSize()
+	public int getFunctionsSizeIndexed()
 	{
-		return functionsSize;
+		return functionsSizeIndexed;
 	}
 
-	public void setFunctionsSize(int functionsSize)
+	public void setFunctionsSizeIndexed(int functionsSizeIndexed)
 	{
-		this.functionsSize = functionsSize;
+		this.functionsSizeIndexed = functionsSizeIndexed;
 	}
 
 	public String getFunction()

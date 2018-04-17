@@ -15,17 +15,19 @@
 		<p:layoutUnit position="west" size="200" header="Configuration"
 			resizable="true" closable="false" collapsible="true" collapsed="true">
 			<h:form>
+				<p:poll id="refreshPoll" interval="#{apiBean.refreshInterval}"
+					listener="#{apiBean.refreshIfPoll}" update=":#{p:component('graph')} :#{p:component('growl')} :#{p:component('rawString')}" />
+			</h:form>
+			<h:form>
 				<h:outputText value="Auto Update: " />
-				<p:inputSwitch value="#{apiBean.doUpdate}">
-					<p:ajax render=":#{p:component('graph')}" event="change" />
+				<p:inputSwitch value="#{apiBean.booleanUpdate}">
+					<p:ajax event="change" update=":#{p:component('refreshPoll')}"/>
 				</p:inputSwitch>
 
 				<h:outputText value="Refresh interval: " />
-				<p:inputText id="inputRefreshInterval"
-					value="#{apiBean.refreshInterval}" />
+				<p:inputText id="inputRefreshInterval" value="#{apiBean.refreshInterval}" />
 				<p:slider for="inputRefreshInterval" minValue="5" step="1">
-					<p:ajax render=":#{p:component('graph')}" event="slideEnd"
-						listener="#{apiBean.onSlideEnd_RefreshInterval}" />
+					<p:ajax event="slideEnd" listener="#{apiBean.onSlideEnd_RefreshInterval}"/>
 				</p:slider>
 			</h:form>
 		</p:layoutUnit>
@@ -37,15 +39,16 @@
 			<p:tabView dynamic="false" cache="false">
 				<p:tab title="Query">
 					<p:growl id="growl" showDetail="true" />
-					<h:panelGrid columns="1" style="margin-bottom: 10px">
-						<h:outputText id="range" value="#{queryBean.function}" />
-                        <h:inputHidden id="rangetxt" value="#{sliderView.rangeIndex}" />
-						<p:slider for="rangetxt" step="1" maxValue="8">
+					<h:panelGrid columns="1" style="display:block;width:100%">
+						<h:outputText id="range" value="#{queryBean.function}"/>
+                        <h:inputHidden id="rangetxt" value="#{queryBean.functionIndex}" />
+						<p:slider for="rangetxt" style="width: 100%"  step="1" maxValue="#{queryBean.functionsSizeIndexed}">
 							<p:ajax event="slideEnd" listener="#{queryBean.onSlideEnd}"
 								update="range growl" />
 						</p:slider>
 					</h:panelGrid>
 
+					
 				</p:tab>
 				<p:tab title="Response">
 					<h:panelGroup layout="block" id="rawString">
@@ -58,10 +61,6 @@
 		<p:layoutUnit position="center">
 
 			<h:form>
-				<p:poll interval="#{apiBean.refreshInterval}"
-					listener="#{apiBean.refresh}" update="graph rawString growl"
-					rendered="#{apiBean.doUpdate}" />
-
 				<h:panelGroup layout="block" id="graph">
 
 					<div class="chart-container"
@@ -87,7 +86,6 @@
 						</p:columns>
 					</p:dataTable>
 				</h:panelGroup>
-
 			</h:form>
 
 		</p:layoutUnit>

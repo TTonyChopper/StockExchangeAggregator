@@ -73,7 +73,7 @@ public class AlphaChartProvider implements ChartProviderInterface<Alpha>
 
 		Alpha alpha = (Alpha) model;
 
-		if (alpha.getMetaData() == null)
+		if (alpha == null || alpha.getMetaData() == null)
 		{
 			return lineChartData;
 		}
