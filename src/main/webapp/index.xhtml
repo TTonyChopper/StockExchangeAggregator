@@ -15,7 +15,7 @@
 		<p:layoutUnit position="west" size="200" header="Configuration"
 			resizable="true" closable="false" collapsible="true" collapsed="true">
 			<h:form>
-				<p:poll id="refreshPoll" interval="#{apiBean.refreshInterval}"
+				<p:poll id="refreshPoll" interval="#{apiBean.refreshInterval}" stop="#{!apiBean.booleanUpdate}"
 					listener="#{apiBean.refreshIfPoll}" update=":#{p:component('graph')} :#{p:component('growl')} :#{p:component('rawString')}" />
 			</h:form>
 			<h:form>
