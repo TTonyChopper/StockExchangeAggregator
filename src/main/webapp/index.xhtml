@@ -47,8 +47,11 @@
 								update="range growl" />
 						</p:slider>
 					</h:panelGrid>
-
-					
+			
+					<h:form>
+						<p:remoteCommand name="RefreshCommand" actionListener="#{apiBean.refresh}" />
+						<p:commandButton type="button" onclick="RefreshCommand()" value="Refresh" icon="ui-icon-refresh" />
+					</h:form>
 				</p:tab>
 				<p:tab title="Response">
 					<h:panelGroup layout="block" id="rawString">
