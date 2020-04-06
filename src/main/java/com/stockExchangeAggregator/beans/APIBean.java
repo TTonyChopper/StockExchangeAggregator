@@ -25,6 +25,9 @@ import com.stockExchangeAggregator.providers.query.parameter.QueryParameter;
 public class APIBean
 {
 	static final Logger LOG = LoggerFactory.getLogger(APIBean.class);
+	
+	private Feeds currentFeed = Feeds.YAHOO;
+	private String currentQueryPageName = Feeds.YAHOO.getPageName();
 
 	private FeedManager feedMgr = new FeedManager();
 
@@ -32,16 +35,77 @@ public class APIBean
 
 	private Boolean booleanUpdate = false;
 	private int refreshInterval = 30;
+	
+	private boolean switchFeed;
 
 	public APIBean()
 	{
 		super();
 		refresh();
 	}
+	
+	public boolean getSwitchFeed()
+	{
+		return switchFeed;
+	}
+	
+	public void setSwitchFeed(boolean switchFeed)
+	{
+		this.switchFeed = switchFeed;
+	}
+	
+	public void switchFeed()
+	{
+		switch (currentFeed)
+		{
+			case ALPHA :
+				currentFeed = Feeds.YAHOO;
+				break;
+			case YAHOO :
+				currentFeed = Feeds.ALPHA;
+				break;
+			default :
+				currentFeed = Feeds.YAHOO;
+				break;
+		}
+		
+		String str = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("test");
+	    this.currentQueryPageName = str;
+		
+		refresh();
+	}
+	
+	public Feeds getCurrentFeed()
+	{
+		return currentFeed;
+	}
+
+	public void setCurrentFeed(Feeds currentFeed)
+	{
+		this.currentFeed = currentFeed;
+	}
+
+	public String getCurrentQueryPageName()
+	{
+		return currentQueryPageName;
+	}
+
+	public void setCurrentQueryPageName(String currentQueryPageName)
+	{
+		this.currentQueryPageName = currentQueryPageName;
+	}
 
 	public APIWrapper getApiWrapper()
 	{
-		return currentApiWrapper = feedMgr.getAlphaApiWrapper();
+		switch (currentFeed)
+		{
+			case ALPHA :
+			    return currentApiWrapper = feedMgr.getAlphaApiWrapper();
+			case YAHOO :
+			    return currentApiWrapper = feedMgr.getYahooApiWrapper();
+			default :
+				return currentApiWrapper = feedMgr.getYahooApiWrapper();
+		}
 	}
 	
 	public void updateParam(QueryParameter param)

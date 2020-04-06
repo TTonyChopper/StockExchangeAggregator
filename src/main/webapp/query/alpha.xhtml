@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<p:growl id="growl" showDetail="true" />
+<h:panelGrid columns="1" style="display:block;width:100%">
+	<h:outputText id="range" value="#{queryFunctionBean.function}" />
+	<h:inputHidden id="rangetxt" value="#{queryFunctionBean.functionIndex}" />
+	<p:slider for="rangetxt" style="width: 100%" step="1"
+		maxValue="#{queryFunctionBean.functionsSizeIndexed}">
+		<p:ajax event="slideEnd" listener="#{queryFunctionBean.onSlideEnd}"
+			update="range growl" />
+	</p:slider>
+</h:panelGrid>
+
+<h:outputText value="#{queryParamBean.msg}" id="msg" />
+<p:selectBooleanCheckbox value="#{queryParamBean.outputSizeFull}">
+	<p:ajax update="msg" listener="#{queryParamBean.onCheckBox}" />
+</p:selectBooleanCheckbox>
+
+<h:form>
+	<p:remoteCommand name="RefreshCommand"
+		actionListener="#{apiBean.refresh}" />
+	<p:commandButton type="button" onclick="RefreshCommand()"
+		value="Refresh" icon="ui-icon-refresh" />
+</h:form>
+
+<h:form id="feedForm">
+	<f:ajax render=":queryContentPanel" execute="@this">
+		<h:commandLink value="Yahoo" action="#{navigationBean.switchFeed}">
+			<f:param name="test" value="/query/yahoo" />
+		</h:commandLink>
+	</f:ajax>
+</h:form>
+
+<h:form>
+	<p:remoteCommand name="SwitchFeedCommand"
+		actionListener="#{apiBean.switchFeed}" />
+	<p:commandButton type="button" onclick="SwitchFeedCommand()"
+		value="Switch to Yahoo feed" />
+</h:form>
+
+</html>

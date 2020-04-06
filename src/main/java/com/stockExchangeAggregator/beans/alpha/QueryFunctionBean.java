@@ -1,4 +1,4 @@
-package com.stockExchangeAggregator.beans;
+package com.stockExchangeAggregator.beans.alpha;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -6,19 +6,23 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.event.SlideEndEvent;
 
+import com.stockExchangeAggregator.beans.APIBean;
 import com.stockExchangeAggregator.providers.query.parameter.alpha.Function;
 
-@ManagedBean(name = "queryBean")
+@ManagedBean(name = "queryFunctionBean")
 @SessionScoped
-public class QueryBean
+public class QueryFunctionBean
 {
 	private final APIBean apiBean;
 	
-	private int functionIndex;
+	private Function defaultFunction = Function.TIME_SERIES_DAILY;
+	private int functionIndex = Function.functions.indexOf(defaultFunction);
 	private int functionsSizeIndexed = Function.functions.size() - 1;
-	private String function = Function.TIME_SERIES_DAILY.getParam();
+	private String function = defaultFunction.getParam();
 	
-	public QueryBean()
+	private boolean onSlideEnd;
+	
+	public QueryFunctionBean()
 	{
 		super();
 		
@@ -58,6 +62,16 @@ public class QueryBean
 	{
 		this.function = function;
 	}
+	
+	public boolean getOnSlideEnd()
+	{
+		return onSlideEnd;
+	}
+	
+	public void setOnSlideEnd(boolean onSlideEnd)
+	{
+		this.onSlideEnd = onSlideEnd;
+	}
 
 	public void onSlideEnd(SlideEndEvent event) {
 		functionIndex = event.getValue();
@@ -67,5 +81,5 @@ public class QueryBean
         apiBean.updateParam(currentFunction);
         //Alpha Vantage cannot handle so many request for the moment
         //apiBean.refresh();
-    } 
+    }
 }

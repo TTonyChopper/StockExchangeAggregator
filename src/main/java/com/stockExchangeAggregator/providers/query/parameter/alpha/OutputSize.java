@@ -4,10 +4,10 @@ import com.stockExchangeAggregator.providers.query.parameter.QueryParameter;
 
 public class OutputSize extends QueryParameter
 {
-	public final static Function COMPACT = new Function("COMPACT");
-	public final static Function FULL = new Function("FULL");
+	public final static OutputSize COMPACT = new OutputSize("COMPACT");
+	public final static OutputSize FULL = new OutputSize("FULL");
 
-	public OutputSize(String name, String value)
+	public OutputSize(String value)
 	{
 		super("outputsize", value);
 	}
